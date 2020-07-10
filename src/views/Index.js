@@ -20,12 +20,8 @@ import React from "react";
 // reactstrap components
 //import { Container, Row } from "reactstrap";
 
-// core components
-import AppNavbar from "components/Navbars/AppNavbar.js";
-import AppFooter from "components/Footers/AppFooter.js";
-
 // index page sections
-import Hero from "./IndexSections/Hero.js";
+import App from "./App/App.js";
 
 class Index extends React.Component {
   componentDidMount() {
@@ -33,14 +29,13 @@ class Index extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
   render() {
     return (
       <>
-        <AppNavbar />
         <main ref="main">
-        <Hero />
+        <App />
         </main>
-        <AppFooter />
       </>
     );
   }
