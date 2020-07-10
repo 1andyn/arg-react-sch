@@ -28,7 +28,6 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
   UncontrolledTooltip,
-  Modal,
   NavbarBrand,
   Navbar,
   NavItem,
@@ -59,12 +58,6 @@ class AppNavbar extends React.Component {
   onExited = () => {
     this.setState({
       collapseClasses: ""
-    });
-  };
-
-  toggleModal = state => {
-    this.setState({
-      [state]: !this.state[state]
     });
   };
 
@@ -153,7 +146,7 @@ class AppNavbar extends React.Component {
                    className="btn-neutral btn-icon"
                    color="default" 
                    id="tooltip969535472"
-                   onClick={() => this.toggleModal("notificationModal")}
+                   onClick={this.props.restartApp}
                    >
                   <span className="btn-inner--icon">
                         <i className="fa fa-undo mr-2" />
@@ -162,50 +155,6 @@ class AppNavbar extends React.Component {
                     Restart
                   </span>
                   </Button>
-                  <Modal
-                   className="modal-dialog-centered modal-danger"
-                   contentClassName="bg-gradient-danger"
-                   isOpen={this.state.notificationModal}
-                   toggle={() => this.toggleModal("notificationModal")}
-                  >
-                  <div className="modal-header">
-                    <h6 className="modal-title" id="modal-title-notification">
-                      This hasn't been implemented yet!
-                    </h6>
-                    <button
-                      aria-label="Close"
-                      className="close"
-                      data-dismiss="modal"
-                      type="button"
-                      onClick={() => this.toggleModal("notificationModal")}
-                    >
-                      <span aria-hidden={true}>×</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
-                    <div className="py-3 text-center">
-                      <i className="ni ni-bell-55 ni-3x" />
-                      <h4 className="heading mt-4">Notice</h4>
-                      <p>
-                        This functionality hasn't been implemented. Please refresh the page to restart in the meantime.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="modal-footer">
-                    <Button className="btn-white" color="default" type="button">
-                      Ok, Got it
-                    </Button>
-                    <Button
-                      className="text-white ml-auto"
-                      color="link"
-                      data-dismiss="modal"
-                      type="button"
-                      onClick={() => this.toggleModal("notificationModal")}
-                    >
-                      Close
-                    </Button>
-                  </div>
-                </Modal>
                   <UncontrolledTooltip 
                    delay={0} 
                    target="tooltip969535472"
