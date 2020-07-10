@@ -50,7 +50,7 @@ class Profile extends React.Component {
       <>
         <AppNavbar />
         <main className="profile-page" ref="main">
-          <section className="section-profile-cover section-shaped my-0">
+          <section className="section-app-limit section-shaped my-0">
             {/* Circles background */}
             <div className="shape shape-style-1 shape-default alpha-4">
               <span />
