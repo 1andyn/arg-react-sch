@@ -29,7 +29,8 @@ class App extends React.Component {
     this.state = {
       stage: "intro",
       school_system: "UH",
-      school: ""
+      school: "",
+      school_list: []
     };
     //child function call will hit this parent
     this.startApp = this.startApp.bind(this);
@@ -38,12 +39,25 @@ class App extends React.Component {
 
   startApp = () => {
     this.setState({ stage: "select-school" });
+    const apiUrl = 'http://localhost:3000/campus/list/';
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => this.setState({school_list : data}))
   };
+
+  onShowAlert = ()=>{
+    this.setState({visible:true},()=>{
+      window.setTimeout(()=>{
+        this.setState({visible:false})
+      },2000)
+    });
+  }
 
   restartApp = () => {
     this.setState({
       stage: "intro-restarted",
-      school: ""
+      school: "",
+      school_list: []
     });
   }
 
@@ -93,7 +107,7 @@ class App extends React.Component {
           <section className="section section-hero section-shaped">
             <AppNavbar restartApp={this.restartApp} />
             <div className="shape shape-default"></div>
-            <School />
+            <School schoolist = {this.state.school_list}/>
           </section>
           <AppFooter />
         </>
