@@ -87,7 +87,7 @@ class School extends React.Component {
                                                     </div>
                                                     <div className="modal-body">
                                                         <p>
-                                                            This web app builds course information off of the <a href ="https://www.sis.hawaii.edu/">
+                                                            This web app builds course information off of the <a href ="https://www.sis.hawaii.edu/uhdad/avail.classes">
                                                                 Course Availability
                                                                 </a> web site. If your campus is available on the webpage, 
                                                                 this web app doesn't support it yet. If your campus is not on the webpage,
@@ -128,22 +128,22 @@ class School extends React.Component {
                                     <div className="mt-3 py-3 border-top text-center">
                                         <Row className="justify-content-center">
                                             <Col lg="9">
-                                            <div class ="mb-1"><Button
+                                            <div className ="mb-1"><Button
                                                     block
                                                     color="default"
                                                     type="button"
                                                     href="#Manoa">Univesity of Hawaii at Manoa</Button></div>
-                                            <div class ="mb-1"><Button
+                                            <div className ="mb-1"><Button
                                                     block
                                                     color="default"
                                                     type="button"
                                                     href="#WestOahu">Univesity of Hawaii at West Oahu</Button></div>
-                                            <div class ="mb-1"><Button
+                                            <div className ="mb-1"><Button
                                                     block
                                                     color="default"
                                                     type="button"
                                                     href="#Kapiolani">Univesity of Hawaii at Kapiolani</Button></div>
-                                            <div class ="mb-1"><Button
+                                            <div className ="mb-1"><Button
                                                     block
                                                     color="default"
                                                     type="button"
