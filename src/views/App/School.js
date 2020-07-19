@@ -32,6 +32,9 @@ class School extends React.Component {
       };
 
     render() {
+
+        const school_count = this.props.schoolist.length;
+
         return (
             <>
                 <main className="profile-page" ref="main">
@@ -111,7 +114,7 @@ class School extends React.Component {
                                         <Col className="order-lg-1" lg="4">
                                             <div className="card-profile-stats d-flex justify-content-center">
                                                 <div>
-                                                    <span className="heading">89</span>
+                                                    <span className="heading">{school_count}</span>
                                                     <span className="description">Campuses Available</span>
                                                 </div>
                                             </div>
@@ -128,27 +131,16 @@ class School extends React.Component {
                                     <div className="mt-3 py-3 border-top text-center">
                                         <Row className="justify-content-center">
                                             <Col lg="9">
-                                            <div className ="mb-1"><Button
-                                                    block
-                                                    color="default"
-                                                    type="button"
-                                                    href="#Manoa">Univesity of Hawaii at Manoa</Button></div>
-                                            <div className ="mb-1"><Button
-                                                    block
-                                                    color="default"
-                                                    type="button"
-                                                    href="#WestOahu">Univesity of Hawaii at West Oahu</Button></div>
-                                            <div className ="mb-1"><Button
-                                                    block
-                                                    color="default"
-                                                    type="button"
-                                                    href="#Kapiolani">Univesity of Hawaii at Kapiolani</Button></div>
-                                            <div className ="mb-1"><Button
-                                                    block
-                                                    color="default"
-                                                    type="button"
-                                                    href="#Hilo">Univesity of Hawaii at Hilo</Button></div>
-                                            </Col>
+                                        {this.props.schoolist.map(school => (
+                                            <div className ="mb-1" key={school.strSchoolCode}>
+                                            <Button
+                                                block
+                                                color="default"
+                                                type="button"
+                                                href="">{school.strSchoolDesc}</Button></div>
+                                        ))}
+
+                                        </Col>
                                         </Row>
                                     </div>
                                 </div>
