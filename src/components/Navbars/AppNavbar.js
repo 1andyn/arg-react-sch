@@ -62,7 +62,7 @@ class AppNavbar extends React.Component {
   };
 
   render() {
-    
+
     return (
       <>
         <header className="header-global">
@@ -72,8 +72,8 @@ class AppNavbar extends React.Component {
             id="navbar-main"
           >
             <Container>
-                {/* ------------------------------ nav bar image logic web ------------------------------------*/}
-              <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
+              {/* ------------------------------ nav bar image logic web ------------------------------------*/}
+              <NavbarBrand className="mr-lg-5">
                 <img
                   alt="..."
                   src={require("assets/img/brand/argon-react-white.png")}
@@ -93,12 +93,10 @@ class AppNavbar extends React.Component {
                 <div className="navbar-collapse-header">
                   <Row>
                     <Col className="collapse-brand" xs="6">
-                      <Link to="/">
-                        <img
-                          alt="..."
-                          src={require("assets/img/brand/argon-react-dark.png")}
-                        />
-                      </Link>
+                      <img
+                        alt="..."
+                        src={require("assets/img/brand/argon-react-dark.png")}
+                      />
                     </Col>
                     <Col className="collapse-close" xs="6">
                       <button className="navbar-toggler" id="navbar_global">
@@ -140,25 +138,28 @@ class AppNavbar extends React.Component {
                       Project Repository
                     </UncontrolledTooltip>
                   </NavItem>
-                  <NavItem className="d-none d-lg-block ml-lg-4">
-                {/* ------------------------------ restart button logic block ------------------------------------*/}
-                  <Button 
-                   className="btn-neutral btn-icon"
-                   color="default" 
-                   id="tooltip969535472"
-                   onClick={this.props.restartApp}
-                   >
-                  <span className="btn-inner--icon">
+                  </Nav>
+                  {/* ------------------------------ restart button logic block ------------------------------------*/}
+                <Nav className="align-items-lg-center" navbar>
+                  <NavItem>
+                  { /*<NavItem className="d-none d-lg-block ml-lg-4">*/}
+                    <Button
+                      className="btn-neutral btn-icon"
+                      color="default"
+                      id="tooltip969535472"
+                      onClick={this.props.restartApp}
+                    >
+                      <span className="btn-inner--icon">
                         <i className="fa fa-undo mr-2" />
-                  </span>
-                  <span className="nav-link-inner--text ml-1">
-                    Restart
-                  </span>
-                  </Button>
-                  <UncontrolledTooltip 
-                   delay={0} 
-                   target="tooltip969535472"
-                   placement="right">
+                      </span>
+                      <span className="nav-link-inner--text ml-1">
+                        Restart
+                      </span>
+                    </Button>
+                    <UncontrolledTooltip
+                      delay={0}
+                      target="tooltip969535472"
+                      placement="right">
                       Click to Restart
                   </UncontrolledTooltip>
                   </NavItem>
