@@ -131,15 +131,18 @@ class School extends React.Component {
                                     <div className="mt-3 py-3 border-top text-center">
                                         <Row className="justify-content-center">
                                             <Col lg="9">
-                                        {this.props.schoolist.map(school => (
-                                            <div className ="mb-1" key={school.strSchoolCode}>
-                                            <Button
-                                                block
-                                                color="default"
-                                                type="button"
-                                                href="">{school.strSchoolDesc}</Button></div>
-                                        ))}
+                                            {this.props.schoolist.map(school => 
 
+                                            (
+                                                <div className ="mb-1" key={school.strSchoolCode}>
+                                                <Button
+                                                    block
+                                                    color="default"
+                                                    type="button"
+                                                    onClick={() => this.props.setSchool(school)}>{school.strSchoolDesc}</Button></div>
+                                            )
+                                            
+                                            )}
                                         </Col>
                                         </Row>
                                     </div>
