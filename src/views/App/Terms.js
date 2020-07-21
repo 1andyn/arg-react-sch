@@ -17,8 +17,7 @@ import {
     Row,
     Col,
     Button,
-    Card,
-    Modal
+    Card
 } from "reactstrap";
 
 class Terms extends React.Component {
