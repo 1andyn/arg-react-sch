@@ -32,7 +32,8 @@ class App extends React.Component {
       school: "",
       school_list: [],
       term: "",
-      term_list: []
+      term_list: [],
+      restarted : false
     };
     //child function call will hit this parent
     this.startApp = this.startApp.bind(this);
@@ -49,21 +50,18 @@ class App extends React.Component {
       .then((data) => this.setState({school_list : data}))
   };
 
-  onShowAlert = ()=>{
-    this.setState({visible:true},()=>{
-      window.setTimeout(()=>{
-        this.setState({visible:false})
-      },2000)
-    });
-  }
-
   restartApp = () => {
     this.setState({
       stage: "intro-restarted",
       school: "",
       school_list: [],
       term: "",
-      term_list: []
+      term_list: [],
+      restarted: true
+    }, () => {
+      window.setTimeout(() => {
+        this.setState({restarted:false})
+      }, 3000) //hide restart indication after 3 seconds
     });
   }
 
@@ -112,8 +110,8 @@ class App extends React.Component {
               <section className="section section-hero section-shaped">
                 <div className="shape shape-default"></div>
                 <Container>
-                  <div class = "nav-wrapper">
-                  <UncontrolledAlert color="success" fade={true}>
+                  <div className = "nav-wrapper">
+                  <UncontrolledAlert color="success" fade={true} isOpen = {this.state.restarted}>
                     <span className="alert-inner--icon">
                       <i className="ni ni-like-2" />
                     </span>
