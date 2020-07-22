@@ -61,7 +61,7 @@ class App extends React.Component {
     }, () => {
       window.setTimeout(() => {
         this.setState({restarted:false})
-      }, 3000) //hide restart indication after 3 seconds
+      }, 2500) //hide restart indication after 3 seconds
     });
   }
 
