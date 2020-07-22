@@ -142,11 +142,9 @@ class Profile extends React.Component {
                     <Row className="justify-content-center">
                       <Col lg="9">
                         <p>
-                          Life is short so I go where it takes me with
-                          as little hesitation as possible.
-                          Born in California, Hawaii for College
-                          Moving to Seattle for better opportunities 
-                          He enjoys building cool things and eating good food.
+                          Building the technologies to shape the future.
+                          This page is for storing basic examples / UI elements as part of
+                          the Argon UI Design System (Bootstrap React).
                         </p>
                         <a href="#pablo" onClick={e => e.preventDefault()}>
                           Show more
