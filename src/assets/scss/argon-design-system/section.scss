@@ -1,3 +1,9 @@
+.section-scroll {
+    height: calc(100vh - 300px);
+    overflow-y: scroll;
+    border-radius: 8px;
+}
+
 .section {
     position: relative;
     padding-top: $spacer * 4;
