@@ -23,6 +23,10 @@ import {
 
 class School extends React.Component {
 
+    componentDidMount() {
+        
+    }
+
     //for modal logic
     state = {};
     toggleModal = state => {
@@ -136,6 +140,7 @@ class School extends React.Component {
                                             (
                                                 <div className ="mb-1" key={school.strSchoolCode}>
                                                 <Button
+                                                    id={"school_button_"+school.strSchoolCode}
                                                     block
                                                     color="default"
                                                     type="button"

@@ -22,6 +22,10 @@ import {
 
 class Terms extends React.Component {
 
+    componentDidMount() {
+        this.refs.main.scrollTop = 0;
+    }
+
     render() {
 
         const term_count = this.props.termlist.length;
