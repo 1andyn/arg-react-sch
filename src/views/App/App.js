@@ -21,6 +21,7 @@ import AppFooter from "components/Footers/AppFooter.js";
 import Intro from "views/App/Intro.js";
 import School from "views/App/School.js";
 import Terms from "views/App/Terms.js";
+import Builder from "views/App/Builder.js";
 
 
 class App extends React.Component {
@@ -54,7 +55,9 @@ class App extends React.Component {
     this.setState({
       stage: "intro-restarted",
       school: "",
+      school_code: "",
       school_list: [],
+      sub_list: [],
       term: "",
       term_list: [],
       restarted: true
@@ -74,6 +77,7 @@ class App extends React.Component {
       .then((data) => this.setState({term_list : data}))
     this.setState({
       school: code.strSchoolDesc, 
+      school_code : code.strSchoolCode,
       stage: "select-term"
     });
 
@@ -81,9 +85,16 @@ class App extends React.Component {
 
   setTerm (code) {
     console.log("Term to set to: " + code.strTermCode)
-    this.setState({
-      term: code.strTermCode
-    });
+        //retrieve subject list for school
+        const apiUrl = 'http://localhost:3000/subs/' + this.state.school_code + "/" + code.strTermCode;
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => this.setState({sub_list : data}))
+          this.setState({
+            term: code.strTermCode,
+            stage: "builder"
+        });
+
   }
 
 
@@ -147,8 +158,22 @@ class App extends React.Component {
             <div className="shape shape-default"></div>
             <Terms 
               schoolname = {this.state.school}
-              termlist = {this.state.term_list} 
-              setTerm={this.setTerm}/>
+              termlist = {this.state.term_list}
+              setTerm = {this.setTerm} />
+          </section>
+          <AppFooter />
+        </>
+      );
+    } else if (this.state.stage === "builder") {
+      return (
+        <>
+          <section className="section section-hero section-shaped">
+            <AppNavbar restartApp={this.restartApp} />
+            <div className="shape shape-default"></div>
+            <Builder 
+              school = {this.state.school}
+              term = {this.state.term}
+              sublist = {this.state.sub_list} />
           </section>
           <AppFooter />
         </>

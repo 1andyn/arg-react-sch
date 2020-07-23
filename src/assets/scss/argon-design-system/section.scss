@@ -494,6 +494,12 @@
     background-position: center center;
 }
 
+.section-app-limit-builder {
+    height: 275px;
+    background-size: cover;
+    background-position: center center;
+}
+
 @include media-breakpoint-down(md) {
     .section-profile-cover {
         height: 400px;
