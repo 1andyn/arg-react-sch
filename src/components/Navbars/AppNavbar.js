@@ -106,20 +106,6 @@ class AppNavbar extends React.Component {
                     </Col>
                   </Row>
                 </div>
-                {/* ------------------------------ page drop down for dev comp ------------------------------------*/}
-                <Nav className="navbar-nav-hover align-items-lg-center" navbar>
-                  <UncontrolledDropdown nav>
-                    <DropdownToggle nav>
-                      <i className="ni ni-collection d-lg-none mr-1" />
-                      <span className="nav-link-inner--text">Development - TO BE DELETED</span>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem to="/profile-page" tag={Link}>
-                        Test Dev Components Page
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </Nav>
                 {/* ------------------------------ github repo link block ------------------------------------*/}
                 <Nav className="align-items-lg-center ml-lg-auto" navbar>
                   <NavItem>
