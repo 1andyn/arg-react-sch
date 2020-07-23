@@ -4,7 +4,7 @@
 * School - School Selection logic
 =========================================================
 
-
+Block for displaying School Selection
 
 =========================================================
 

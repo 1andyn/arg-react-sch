@@ -4,7 +4,7 @@
 * Term - Term Selection logic
 =========================================================
 
-
+Block for displaying Term/Semester Selection
 
 =========================================================
 
