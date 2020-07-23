@@ -69,7 +69,7 @@ class App extends React.Component {
   }
 
   setSchool (code) {
-    console.log("School to set to: " + code.strSchoolDesc)
+    //console.log("School to set to: " + code.strSchoolDesc)
     //retrieve term list for school
     const apiUrl = 'http://localhost:3000/term/' + code.strSchoolCode;
     fetch(apiUrl)
@@ -84,7 +84,7 @@ class App extends React.Component {
   }
 
   setTerm (code) {
-    console.log("Term to set to: " + code.strTermCode)
+    //console.log("Term to set to: " + code.strTermCode)
         //retrieve subject list for school
         const apiUrl = 'http://localhost:3000/subs/' + this.state.school_code + "/" + code.strTermCode;
         fetch(apiUrl)
@@ -147,7 +147,6 @@ class App extends React.Component {
             <School schoolist = {this.state.school_list} 
               setSchool={this.setSchool}/>
           </section>
-          <AppFooter />
         </>
       );
     }  else if (this.state.stage === "select-term") {
@@ -161,7 +160,6 @@ class App extends React.Component {
               termlist = {this.state.term_list}
               setTerm = {this.setTerm} />
           </section>
-          <AppFooter />
         </>
       );
     } else if (this.state.stage === "builder") {
@@ -171,11 +169,10 @@ class App extends React.Component {
             <AppNavbar restartApp={this.restartApp} />
             <div className="shape shape-default"></div>
             <Builder 
-              school = {this.state.school}
+              school = {this.state.school_code}
               term = {this.state.term}
               sublist = {this.state.sub_list} />
           </section>
-          <AppFooter />
         </>
       );
     } else {
