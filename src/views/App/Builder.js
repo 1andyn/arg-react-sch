@@ -25,6 +25,7 @@ import {
 } from "reactstrap";
 
 import Select from 'react-select'
+const api_endpoint = "https://arg-exp.andywork.dev";
 
 class Builder extends React.Component {
 
@@ -46,7 +47,7 @@ class Builder extends React.Component {
 
         //console.log("Sub to set to: " + sub_code.strSubCode)
         //retrieve subject list for school
-        const apiUrl = 'http://localhost:3000/courses/' + this.props.school + "/" + this.props.term + "/" + sub_code.strSubCode;
+        const apiUrl = api_endpoint + "/courses/" + this.props.school + "/" + this.props.term + "/" + sub_code.strSubCode;
         fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => this.setSortedCourseList(data))
@@ -74,8 +75,6 @@ class Builder extends React.Component {
     };
 
     deleteCrnFromClipboard(crn) {
-        console.log("Delete clicked for: " + crn);
-
         var data = this.state.clp_list;
         var index = this.binarySearchCRN(crn, data);
 

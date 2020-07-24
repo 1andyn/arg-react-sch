@@ -23,6 +23,7 @@ import School from "views/App/School.js";
 import Terms from "views/App/Terms.js";
 import Builder from "views/App/Builder.js";
 
+const api_endpoint = "https://arg-exp.andywork.dev";
 
 class App extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class App extends React.Component {
 
   startApp = () => {
     this.setState({ stage: "select-school" });
-    const apiUrl = 'http://localhost:3000/campus/list/';
+    const apiUrl = api_endpoint + "/campus/list/";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => this.setState({school_list : data}))
@@ -71,7 +72,7 @@ class App extends React.Component {
   setSchool (code) {
     //console.log("School to set to: " + code.strSchoolDesc)
     //retrieve term list for school
-    const apiUrl = 'http://localhost:3000/term/' + code.strSchoolCode;
+    const apiUrl = api_endpoint + "/term/" + code.strSchoolCode;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => this.setState({term_list : data}))
@@ -86,7 +87,7 @@ class App extends React.Component {
   setTerm (code) {
     //console.log("Term to set to: " + code.strTermCode)
         //retrieve subject list for school
-        const apiUrl = 'http://localhost:3000/subs/' + this.state.school_code + "/" + code.strTermCode;
+        const apiUrl = api_endpoint + "/subs/" + this.state.school_code + "/" + code.strTermCode;
         fetch(apiUrl)
           .then((response) => response.json())
           .then((data) => this.setState({sub_list : data}))
