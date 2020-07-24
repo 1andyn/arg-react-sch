@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.664d34d9.chunk.css",
-    "main.js": "/static/js/main.b0548e57.chunk.js",
-    "main.js.map": "/static/js/main.b0548e57.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.df4c60b7.js",
-    "runtime-main.js.map": "/static/js/runtime-main.df4c60b7.js.map",
-    "static/js/2.82a4eb29.chunk.js": "/static/js/2.82a4eb29.chunk.js",
-    "static/js/2.82a4eb29.chunk.js.map": "/static/js/2.82a4eb29.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.679bf230400b9788aa5a0c66cf92ba7c.js": "/precache-manifest.679bf230400b9788aa5a0c66cf92ba7c.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.664d34d9.chunk.css.map": "/static/css/main.664d34d9.chunk.css.map",
-    "static/js/2.82a4eb29.chunk.js.LICENSE.txt": "/static/js/2.82a4eb29.chunk.js.LICENSE.txt",
-    "static/js/main.b0548e57.chunk.js.LICENSE.txt": "/static/js/main.b0548e57.chunk.js.LICENSE.txt",
-    "static/media/arg-react-sch.png": "/static/media/arg-react-sch.b6bf11b4.png",
-    "static/media/font-awesome.min.css": "/static/media/fontawesome-webfont.fee66e71.woff",
-    "static/media/nucleo.css": "/static/media/nucleo-icons.f82ec6ba.ttf",
-    "static/media/system_seal.png": "/static/media/system_seal.1db896be.png"
+    "main.css": "./static/css/main.4f28a05a.chunk.css",
+    "main.js": "./static/js/main.b0548e57.chunk.js",
+    "main.js.map": "./static/js/main.b0548e57.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.b8a8ff5d.js",
+    "runtime-main.js.map": "./static/js/runtime-main.b8a8ff5d.js.map",
+    "static/js/2.82a4eb29.chunk.js": "./static/js/2.82a4eb29.chunk.js",
+    "static/js/2.82a4eb29.chunk.js.map": "./static/js/2.82a4eb29.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.fb7c3bf521b8351883a5952cccc3b385.js": "./precache-manifest.fb7c3bf521b8351883a5952cccc3b385.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/main.4f28a05a.chunk.css.map": "./static/css/main.4f28a05a.chunk.css.map",
+    "static/js/2.82a4eb29.chunk.js.LICENSE.txt": "./static/js/2.82a4eb29.chunk.js.LICENSE.txt",
+    "static/js/main.b0548e57.chunk.js.LICENSE.txt": "./static/js/main.b0548e57.chunk.js.LICENSE.txt",
+    "static/media/arg-react-sch.png": "./static/media/arg-react-sch.b6bf11b4.png",
+    "static/media/font-awesome.min.css": "./static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/nucleo.css": "./static/media/nucleo-icons.f82ec6ba.ttf",
+    "static/media/system_seal.png": "./static/media/system_seal.1db896be.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.df4c60b7.js",
+    "static/js/runtime-main.b8a8ff5d.js",
     "static/js/2.82a4eb29.chunk.js",
-    "static/css/main.664d34d9.chunk.css",
+    "static/css/main.4f28a05a.chunk.css",
     "static/js/main.b0548e57.chunk.js"
   ]
 }
