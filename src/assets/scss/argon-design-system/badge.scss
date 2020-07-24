@@ -1,3 +1,18 @@
+.badge-button {
+
+    padding-right: 2rem;
+
+    /* Custom CSS to make a badge clickable and react to interaction */
+    &:hover {
+        @include box-shadow($btn-hover-box-shadow);
+        transform: translateY(-1px);
+    }
+
+    &:not(:last-child) {
+        margin-right: .5rem;
+    }
+}
+
 .badge {
     text-transform: $badge-text-transfom;
 
