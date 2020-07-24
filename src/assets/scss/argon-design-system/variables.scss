@@ -47,6 +47,7 @@ $yellow:  #ffd600 !default;
 $green:   #2dce89 !default;
 $teal:    #11cdef !default;
 $cyan:    #2bffc6 !default;
+$dk-blue: #2629d179 !default;
 $less-teal: #44c0d6;
 
 $colors: () !default;
@@ -70,6 +71,7 @@ $colors: map-merge((
 
 $default:       #172b4d !default;
 $primary:       #5e72e4 !default;
+$prime-dark:    #1e438e !default;
 $secondary:     #f4f5f7 !default;
 $success:       $green !default;
 $info:          $teal !default;
@@ -94,6 +96,7 @@ $theme-colors: () !default;
 $theme-colors: map-merge((
   "default":      $default,
   "primary":      $primary,
+  "prime-dark":   $prime-dark,
   "secondary":    $secondary,
   "success":      $success,
   "info":         $info,
@@ -123,6 +126,7 @@ $shape-colors: () !default;
 $shape-colors: map-merge((
   "default":      #32325d,
   "primary":      #5533ff,
+  "prime-dark":   #1e438e,
   "secondary":    #24b47e,
   "neutral":      #e9ecef,
   "blue-gray":    #b2cbe1,

@@ -4,6 +4,10 @@
     border-radius: 8px;
 }
 
+.section-no-x-flow {
+    overflow-x: hidden;
+}
+
 .section {
     position: relative;
     padding-top: $spacer * 4;
