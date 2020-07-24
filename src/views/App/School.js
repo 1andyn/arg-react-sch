@@ -24,7 +24,7 @@ import {
 class School extends React.Component {
 
     componentDidMount() {
-        
+        this.refs.main.scrollTop = 0;
     }
 
     //for modal logic
