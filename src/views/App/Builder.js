@@ -25,7 +25,9 @@ import {
 } from "reactstrap";
 
 import Select from 'react-select'
-const api_endpoint = "https://arg-exp.andywork.dev";
+
+//end points
+const end = require('./Endpoints');
 
 class Builder extends React.Component {
 
@@ -47,7 +49,7 @@ class Builder extends React.Component {
 
         //console.log("Sub to set to: " + sub_code.strSubCode)
         //retrieve subject list for school
-        const apiUrl = api_endpoint + "/courses/" + this.props.school + "/" + this.props.term + "/" + sub_code.strSubCode;
+        const apiUrl = end.crs_d + "/courses/" + this.props.school + "/" + this.props.term + "/" + sub_code.strSubCode;
         fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => this.setSortedCourseList(data))
