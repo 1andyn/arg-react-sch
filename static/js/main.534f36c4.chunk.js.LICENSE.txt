@@ -31,6 +31,18 @@
 /*!
 
 =========================================================
+* Builder - Schedule Builder Logic
+=========================================================
+
+Used for selecting subject and courses and proceeding to build course schedules
+
+=========================================================
+
+*/
+
+/*!
+
+=========================================================
 * Intro - Stores Intro to application section
 =========================================================
 
@@ -59,6 +71,18 @@ Block for displaying School Selection
 =========================================================
 
 Block for displaying Term/Semester Selection
+
+=========================================================
+
+*/
+
+/*!
+
+=========================================================
+* Timetable - Timetable Display logic
+=========================================================
+
+Block for displaying Timetable of Selected Courses
 
 =========================================================
 
