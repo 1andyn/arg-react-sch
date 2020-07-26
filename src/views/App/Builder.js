@@ -24,6 +24,8 @@ import {
     ListGroupItem
 } from "reactstrap";
 
+import Timetable from "views/App/Timetable.js";
+
 import Select from 'react-select'
 
 //end points
@@ -195,6 +197,11 @@ class Builder extends React.Component {
                                                     isOpen={this.state.defaultModal}
                                                     toggle={() => this.toggleModal("defaultModal")}
                                                 >
+                                                    <div>
+                                                        <Timetable/>
+                                                    </div>
+
+                                                    {/*
                                                     <div className="modal-header">
                                                         <h6 className="modal-title" id="modal-title-default">
                                                             We're sorry!
@@ -215,7 +222,11 @@ class Builder extends React.Component {
                                                             Hang tight!
                                                          </p>
                                                     </div>
+                                                    */}
                                                     <div className="modal-footer">
+                                                        <div>
+                                                        <Badge className="text-uppercase" color="danger">Work in progress</Badge>
+                                                        </div>
                                                         <Button
                                                             className="ml-auto"
                                                             color="link"

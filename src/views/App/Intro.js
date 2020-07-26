@@ -19,7 +19,8 @@ import {
   Row, 
   Col, 
   UncontrolledTooltip,
-  NavLink 
+  NavLink,
+  Badge 
 } from "reactstrap";
 
 class Intro extends React.Component {
@@ -66,7 +67,7 @@ class Intro extends React.Component {
                     <div className="mt-5">
                       <small className="text-white font-weight-bold mb-0 mr-2">
                         Plan out your course schedule before registering for class! 
-                        <p>*Under development*</p>
+                        <p><Badge className="text-uppercase" color="primary" pill>Under Development</Badge></p>
                       </small>
                     </div>
                   </Col>

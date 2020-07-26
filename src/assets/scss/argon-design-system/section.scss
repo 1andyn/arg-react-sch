@@ -1,3 +1,24 @@
+//Timetable CSS
+
+.timetb-row {
+    line-height: .3;
+}
+
+.timetb-time {
+    font-size: .9rem;
+    float: right;
+    font-weight: bold;
+}
+
+.timetb-footing {
+    left: 1vw;
+}
+
+.timetb-col {
+    //border-left: 1px solid rgb(37, 39, 68);
+    border-right: 1px solid rgb(37, 39, 68);
+}
+
 .section-scroll {
     height: calc(100vh - 300px);
     overflow-y: scroll;
