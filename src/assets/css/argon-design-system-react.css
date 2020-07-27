@@ -4736,7 +4736,7 @@ a.close.disabled {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
+    max-width: 900px;
     margin: 1.75rem auto; }
   .modal-dialog-scrollable {
     max-height: calc(100% - 3.5rem); }
@@ -4754,7 +4754,7 @@ a.close.disabled {
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
-    max-width: 800px; } }
+    max-width: 1200px; } }
 
 @media (min-width: 1200px) {
   .modal-xl {
@@ -13785,6 +13785,20 @@ textarea[resize="horizontal"] {
     bottom: 10px; }
   .index-page .progress-wrapper .progress {
     margin-bottom: 0; }
+
+.timetb-row {
+  line-height: .3; }
+
+.timetb-time {
+  font-size: .9rem;
+  float: right;
+  font-weight: bold; }
+
+.timetb-footing {
+  left: 1vw; }
+
+.timetb-col {
+  border-right: 1px solid #252744; }
 
 .section-scroll {
   height: calc(100vh - 300px);

@@ -28,7 +28,6 @@ class Timetable extends React.Component {
         // 15 hours, 5 minute intervals, 12 chunks per hour (12*15)
 
         var table_data = [];
-        var time = 600;
         for (var i = 0; i < 160; i++) {
 
             var r_key = i + "_r";
