@@ -198,7 +198,7 @@ class Builder extends React.Component {
                                                     toggle={() => this.toggleModal("defaultModal")}
                                                 >
                                                     <div>
-                                                        <Timetable/>
+                                                        <Timetable courses = {this.state.clp_list}/>
                                                     </div>
 
                                                     {/*
