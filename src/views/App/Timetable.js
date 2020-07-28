@@ -160,8 +160,10 @@ class Timetable extends React.Component {
         }
 
         for(var i = 0; i < time_container.length; i++) {
-            if(time_container[i][0] >= time && time <= time_container[i][1])
-                return " timetb_rg";
+            if(time_container[i][0] <= time && time <= time_container[i][1]) {
+                return " timetb-rg";
+            }
+                
         }
 
         return "";
@@ -194,7 +196,7 @@ class Timetable extends React.Component {
 
             //add time to every hour
             var time_ind = i % 12 === 0 ? String(600 + (i/12)*100) : "";
-            var time = 600 + i*5;
+            var time = 600 + (i/12)*100;
 
             var sel_u = this.getFormattingForDay("U", time);
             var sel_m = this.getFormattingForDay("M", time);
