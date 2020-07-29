@@ -24,23 +24,10 @@ class Timetable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tt_su: [],
-            tt_su_o: [],
-            tt_mo: [],
-            tt_mo_o: [],
-            tt_tu: [],
-            tt_tu_o: [],
-            tt_we: [],
-            tt_we_o: [],
-            tt_th: [],
-            tt_th_o: [],
-            tt_fr: [],
-            tt_fr_o: [],
-            tt_sa: [],
-            tt_sa_o: [],
+            tt_base: [],
+            tt_base_o: []
         }
 
-        
     }
 
     //build daily time tables once mounted
@@ -50,24 +37,7 @@ class Timetable extends React.Component {
 
     buildDailyTimetables() {
 
-        console.log("build called");
-
-        var tt_su_d = [];
-        var tt_mo_d = [];
-        var tt_tu_d = [];
-        var tt_we_d = [];
-        var tt_th_d = [];
-        var tt_fr_d = [];
-        var tt_sa_d = [];
-
-        //overlap data TO DO: Implement
-        var tt_su_o_d = [];
-        var tt_mo_o_d = [];
-        var tt_tu_o_d = [];
-        var tt_we_o_d = [];
-        var tt_th_o_d = [];
-        var tt_fr_o_d = [];
-        var tt_sa_o_d = [];
+        var tt_base_d = [];
 
         var course_data = this.props.courses;
         for(var i = 0; i < course_data.length; i++) {
@@ -81,53 +51,67 @@ class Timetable extends React.Component {
                 
                 for(var j = 0; j < day_data.length; j++) {
                     
-                    var start_end = [course_data[i].intTimeStart, course_data[i].intTimeEnd];
-                    var start_end2 = [course_data[i].intTimeStart2, course_data[i].intTimeEnd2];
+                    var start_end = [course_data[i].intTimeStart, course_data[i].intTimeEnd, course_data[i].strCRN, day_data[j]];
+                    var start_end2 = [course_data[i].intTimeStart2, course_data[i].intTimeEnd2, course_data[i].strCRN, day_data[j]];
 
-                    if(day_data[j] === "U") {
-                        tt_su_d.push(start_end);
-                        tt_su_d.push(start_end2);
-                    } else if (day_data[j] === "M") {
-                        tt_mo_d.push(start_end);
-                        tt_mo_d.push(start_end2);
-                    } else if (day_data[j] === "T") {
-                        tt_tu_d.push(start_end);
-                        tt_tu_d.push(start_end2);
-                    } else if (day_data[j] === "W") {
-                        tt_we_d.push(start_end);
-                        tt_we_d.push(start_end2);
-                    } else if (day_data[j] === "R") {
-                        tt_th_d.push(start_end);
-                        tt_th_d.push(start_end2);
-                    } else if (day_data[j] === "F") {
-                        tt_fr_d.push(start_end);
-                        tt_fr_d.push(start_end2);
-                    } else if (day_data[j] === "S") {
-                        tt_sa_d.push(start_end);
-                        tt_sa_d.push(start_end2);
-                    }
+                    tt_base_d.push(start_end);
+                    tt_base_d.push(start_end2);
+
                 }
             }
         }
 
+        //sort based on sort time
+        tt_base_d.sort((crs_1, crs_2) => parseInt(crs_1.intTimeStart) - parseInt(crs_2.intTimeStart));
+
         this.setState({
-            tt_su: tt_su_d,
-            tt_mo: tt_mo_d,
-            tt_tu: tt_tu_d,
-            tt_we: tt_we_d,
-            tt_th: tt_th_d,
-            tt_fr: tt_fr_d,
-            tt_sa: tt_sa_d,
-            tt_su_o: tt_su_o_d,
-            tt_mo_o: tt_mo_o_d,
-            tt_tu_o: tt_tu_o_d,
-            tt_we_o: tt_we_o_d,
-            tt_th_o: tt_th_o_d,
-            tt_fr_o: tt_fr_o_d,
-            tt_sa_o: tt_sa_o_d
+            tt_base: tt_base_d
         });
 
+
+        this.buildOverlapTimetables();
     }
+
+    buildOverlapTimetables() {
+
+        //overlap data TO DO: Implement
+        var tt_base_o_d = [];
+
+        var course_timedata = this.state.tt_base;
+
+        console.log(course_timedata);
+
+        for(var i = 0; i < course_timedata.length - 1; i++) {
+            if (course_timedata[i][3] === "TBA")
+                continue;
+            for(var j = i + 1; j < course_timedata.length; j++){
+                if (course_timedata[j][3] === "TBA")
+                    continue;
+                if (course_timedata[i][3] === course_timedata[j][3] &&
+                    course_timedata[i][0] <= course_timedata[j][0] &&
+                    course_timedata[j][0] <= course_timedata[i][1]) {
+                        //overlap, time is on same day
+                        // list is sorted in ascending order so first course should start earlier to equal 
+                        // if end time of first course is after the start of the second course, there is overlap
+                        var start_ol = Math.min(course_timedata[i][0], course_timedata[j][0]);
+                        var end_ol = Math.min(course_timedata[i][1], course_timedata[j][1]);
+                        var ol_row = [start_ol, end_ol, course_timedata[i][2] + "," + course_timedata[j][2], course_timedata[i][3]];
+                        tt_base_o_d.push(ol_row);
+                    }
+
+            }
+
+        }
+  
+        tt_base_o_d.sort((crs_1, crs_2) => parseInt(crs_1.intTimeStart) - parseInt(crs_2.intTimeStart));
+
+        console.log(tt_base_o_d);
+
+        this.setState({
+            tt_base_o: tt_base_o_d
+        });     
+    }
+
     /*
 
     U = Sunday
@@ -142,28 +126,30 @@ class Timetable extends React.Component {
 
     getFormattingForDay(day, time){
 
-        var time_container;
-        if(day === "U") {
-            time_container = this.state.tt_su;
-        } else if (day === "M") {
-            time_container = this.state.tt_mo;
-        } else if (day === "T") {
-            time_container = this.state.tt_tu;
-        } else if (day === "W") {
-            time_container = this.state.tt_we;
-        } else if (day === "R") {
-            time_container = this.state.tt_th;
-        } else if (day === "F") {
-            time_container = this.state.tt_fr;
-        } else if (day === "S") {
-            time_container = this.state.tt_sa;
+        var time_container = this.state.tt_base;
+        var time_container_ol = this.state.tt_base_o;
+
+        /*
+
+        0 = Start Time
+        1 = End Time
+        2 = CRN
+        3 = DAY
+
+        */
+
+        //overlap gets priority
+        for(var i = 0; i < time_container_ol.length; i++) {
+            if(time_container_ol[i][0] <= time && time <= time_container_ol[i][1] && time_container_ol[i][3] === day) {
+                return " timetb-ol";
+            }   
         }
 
-        for(var i = 0; i < time_container.length; i++) {
-            if(time_container[i][0] <= time && time <= time_container[i][1]) {
+        //console.log(this.state.tt_base);
+        for(i = 0; i < time_container.length; i++) {
+            if(time_container[i][0] <= time && time <= time_container[i][1] && time_container[i][3] === day) {
                 return " timetb-rg";
-            }
-                
+            }   
         }
 
         return "";
