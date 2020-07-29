@@ -35,6 +35,11 @@ class Timetable extends React.Component {
         this.buildDailyTimetables();
     }
 
+    debugOutput() {
+        console.log(this.state.tt_base);
+        console.log(this.state.tt_base_o);
+    }
+
     buildDailyTimetables() {
 
         var tt_base_d = [];
@@ -62,30 +67,18 @@ class Timetable extends React.Component {
         }
 
         //sort based on sort time
-        tt_base_d.sort((crs_1, crs_2) => parseInt(crs_1.intTimeStart) - parseInt(crs_2.intTimeStart));
-
-        this.setState({
-            tt_base: tt_base_d
-        });
-
-
-        this.buildOverlapTimetables();
-    }
-
-    buildOverlapTimetables() {
+        tt_base_d.sort((crs_1, crs_2) => parseInt(crs_1[0]) - parseInt(crs_2[0]));
 
         //overlap data TO DO: Implement
         var tt_base_o_d = [];
 
-        var course_timedata = this.state.tt_base;
-
-        console.log(course_timedata);
+        var course_timedata = tt_base_d;
 
         for(var i = 0; i < course_timedata.length - 1; i++) {
-            if (course_timedata[i][3] === "TBA")
+            if (course_timedata[i][3] === "TBA" || course_timedata[i][0] === 0)
                 continue;
             for(var j = i + 1; j < course_timedata.length; j++){
-                if (course_timedata[j][3] === "TBA")
+                if (course_timedata[j][3] === "TBA" || course_timedata[j][0] === 0)
                     continue;
                 if (course_timedata[i][3] === course_timedata[j][3] &&
                     course_timedata[i][0] <= course_timedata[j][0] &&
@@ -102,14 +95,12 @@ class Timetable extends React.Component {
             }
 
         }
-  
-        tt_base_o_d.sort((crs_1, crs_2) => parseInt(crs_1.intTimeStart) - parseInt(crs_2.intTimeStart));
-
-        console.log(tt_base_o_d);
 
         this.setState({
+            tt_base: tt_base_d,
             tt_base_o: tt_base_o_d
-        });     
+        });
+
     }
 
     /*
@@ -218,6 +209,7 @@ class Timetable extends React.Component {
     render() {
 
         var tables = this.drawTable()
+        //this.debugOutput();
 
         return (
             <>
