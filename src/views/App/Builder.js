@@ -20,6 +20,8 @@ import {
     Button,
     Card,
     Modal,
+    Input,
+    FormGroup,
     ListGroup,
     ListGroupItem
 } from "reactstrap";
@@ -39,7 +41,8 @@ class Builder extends React.Component {
             sub: "",
             vcp_list: new Map(),
             crs_list: [],
-            clp_list: []
+            clp_list: [],
+            twelve_hr : false
         }
 
         this.toggleVirtual = this.toggleVirtual.bind(this);
@@ -88,6 +91,14 @@ class Builder extends React.Component {
         });
 
     };
+
+    helpDisplayCourseList() {
+        return this.state.crs_list.length === 0 ? (<div className = "cl-centered"><h5>Select courses by looking through subjects!</h5></div>) : '' ;
+    }
+
+    helpDisplayClipList() {
+        return this.state.clp_list.length === 0 ? (<div className = "cl-centered"><h6>Add courses from the list to the left!</h6></div>) : '' ;
+    }
 
 
     binarySearchCRN(crn, datasource) {
@@ -182,7 +193,7 @@ class Builder extends React.Component {
                                                 >
                                                     Add
                                                 </Button>
-                                            </Col>
+                                            </Col>                                           
                                             <Col s={4}>
                                                 <Button
                                                     className=""
@@ -198,7 +209,10 @@ class Builder extends React.Component {
                                                     toggle={() => this.toggleModal("defaultModal")}
                                                 >
                                                     <div>
-                                                        <Timetable courses = {this.state.clp_list}/>
+                                                        <Timetable 
+                                                            courses = {this.state.clp_list}
+                                                            timeformat = {this.state.twelve_hr}
+                                                        />
                                                     </div>
 
                                                     {/*
@@ -241,11 +255,41 @@ class Builder extends React.Component {
                                             </Col>
                                         </Row>
                                     </div>
-                                    <div className="mt-3 py-3 border-top">
+                                    <div className="mt-2">
+                                        <Row>
+                                            <Col sm={8}>
+                                                <FormGroup>
+                                                    <Input name="searchtext" id="SearchFilter" placeholder="CRN or Course name after selecting Subject" />
+                                                </FormGroup>
+                                            </Col>
+                                            <Col s={4}>
+                                            <Button
+                                                    className=""
+                                                    color="secondary"
+                                                    //onClick={this.addSelectedToClipboard}
+                                                    block
+                                                >
+                                                    Filters
+                                            </Button>
+                                            </Col>
+                                            <Col s={4}>
+                                            <Button
+                                                    className=""
+                                                    color="primary"
+                                                    //onClick={this.addSelectedToClipboard}
+                                                    block
+                                                >
+                                                    Options
+                                            </Button>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    <div className="mt-1 py-3 border-top">
                                         <Row>
                                             <Col sm={8}>
                                                 <div className="border-right section-scroll">
                                                     <ListGroup>
+                                                        {this.helpDisplayCourseList()}
                                                         {this.state.crs_list.map(crs => (
                                                             <ListGroupItem key={"grp_" + crs.strCRN}>
                                                                 <Row>
@@ -304,6 +348,7 @@ class Builder extends React.Component {
                                             <Col s={4} className = "section-no-x-flow">
                                                 <div className="section-scroll">
                                                     <ListGroup className = "">
+                                                        {this.helpDisplayClipList()}
                                                         {this.state.clp_list.map(clip =>
                                                             <ListGroupItem key={clip.strCRN + "_clp"}>
                                                                 <Row>
