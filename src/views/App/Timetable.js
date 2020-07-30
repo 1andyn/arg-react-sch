@@ -25,7 +25,8 @@ class Timetable extends React.Component {
         super(props);
         this.state = {
             tt_base: [],
-            tt_base_o: []
+            tt_base_o: [],
+            twelve_hr: true
         }
 
     }
@@ -115,6 +116,27 @@ class Timetable extends React.Component {
 
     */
 
+
+    timeFormat(time) {
+        if(this.state.twelve_hr) {
+            if(time.length == 4) {
+                var hr = Int(time.substr(0,2));
+                var tag = hr >= 12 ? "PM" : "AM";
+                hr = (hr > 12) ? (hr % 12) : hr;
+                return str(hr) + ":" + time.substr(2) + " " + tag;
+            } else {
+                return str(hr) + ":" + time.substr(1) + " " + tag;
+            }
+
+        } else {
+            if(time.length == 4) {
+                return time.substr(0,2) + ":" + time.substr(2);
+            } else {
+                return time.substr(0,1) + ":" + time.substr(1);
+            }
+        }
+    }
+
     getFormattingForDay(day, time){
 
         var time_container = this.state.tt_base;
@@ -174,6 +196,8 @@ class Timetable extends React.Component {
             //add time to every hour
             var time_ind = i % 12 === 0 ? String(600 + (i/12)*100) : "";
             var time = 600 + (i/12)*100;
+            
+            time_ind = this.timeFormat(time_ind);
 
             var sel_u = this.getFormattingForDay("U", time);
             var sel_m = this.getFormattingForDay("M", time);
