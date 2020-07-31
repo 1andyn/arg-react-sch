@@ -13806,6 +13806,13 @@ textarea[resize="horizontal"] {
 .timetb-col {
   border-right: 1px solid #252744; }
 
+.cl-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center; }
+
 .section-scroll {
   height: calc(100vh - 300px);
   overflow-y: scroll;

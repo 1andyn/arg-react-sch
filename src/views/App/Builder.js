@@ -42,10 +42,12 @@ class Builder extends React.Component {
             vcp_list: new Map(),
             crs_list: [],
             clp_list: [],
-            twelve_hr : false
+            twelve_hr : false,
+            filter: ""
         }
 
         this.toggleVirtual = this.toggleVirtual.bind(this);
+        this.setFilter = this.setFilter.bind(this);
         this.addSelectedToClipboard = this.addSelectedToClipboard.bind(this);
         this.deleteCrnFromClipboard = this.deleteCrnFromClipboard.bind(this);
     };
@@ -165,6 +167,32 @@ class Builder extends React.Component {
         });
     };
 
+    setFilter(value) {
+        this.setState({
+            filter : value
+        });
+    }
+
+    filterCheck(crn) {
+        if(this.state.filter === "") 
+            return ("");
+
+        //filter only matches on course name, course desc, or CRN
+        var index = this.binarySearchCRN(crn, this.state.crs_list);
+        if(index === -1)
+            return("");
+
+        var course = this.state.crs_list[index];
+
+        if((course.strCRN).toString().toLowerCase().indexOf(this.state.filter) !== -1 
+            || (course.strTitle).toString().toLowerCase().indexOf(this.state.filter) !== -1 
+            || (course.strCourse).toString().toLowerCase().indexOf(this.state.filter)  !== -1)
+            return ("");
+
+        //no match
+        return("cl-filtered-item");
+    }
+
     render() {
 
         return (
@@ -259,7 +287,7 @@ class Builder extends React.Component {
                                         <Row>
                                             <Col sm={8}>
                                                 <FormGroup>
-                                                    <Input name="searchtext" id="SearchFilter" placeholder="CRN or Course name after selecting Subject" />
+                                                    <Input onChange={event => this.setFilter(event.target.value)} name="searchtext" id="SearchFilter" placeholder="CRN or Course name after selecting Subject" />
                                                 </FormGroup>
                                             </Col>
                                             <Col s={4}>
@@ -291,7 +319,7 @@ class Builder extends React.Component {
                                                     <ListGroup>
                                                         {this.helpDisplayCourseList()}
                                                         {this.state.crs_list.map(crs => (
-                                                            <ListGroupItem key={"grp_" + crs.strCRN}>
+                                                            <ListGroupItem key={"grp_" + crs.strCRN} className = {this.filterCheck(crs.strCRN)}>
                                                                 <Row>
                                                                     <Col><h6 className="mb-0 heading-title text-primary">{crs.strTitle}</h6></Col>
                                                                 </Row>

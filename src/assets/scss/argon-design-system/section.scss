@@ -34,8 +34,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center
-  }
+}
 
+.cl-filtered-item {
+    display: none;
+}
 
 .section-scroll {
     height: calc(100vh - 300px);
