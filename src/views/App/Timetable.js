@@ -14,9 +14,9 @@ import React from "react";
 
 import {
     Row,
-    Col,
-    Button,
-    Badge
+    Col
+    //Button
+    //Badge
 } from "reactstrap";
 
 class Timetable extends React.Component {
@@ -225,7 +225,7 @@ class Timetable extends React.Component {
             <Col className = {"timetb-row timetb-col" + sel_f} key ={fr_key}></Col>
             <Col className = {"timetb-row timetb-col" + sel_s} key ={sa_key}></Col>
 
-            <Col className = "timetb-row timetb-col" key ={b3_key}></Col>
+            <Col className = "timetb-row" key ={b3_key}></Col>
             </Row>);
 
           };
@@ -255,13 +255,13 @@ class Timetable extends React.Component {
                 {tables}
                 <Row>
                     <Col></Col>
-                    <Col className = "timetb-footing">Sun</Col>                        
-                    <Col className = "timetb-footing">Mon</Col>
-                    <Col className = "timetb-footing">Tue</Col>
-                    <Col className = "timetb-footing">Wed</Col>
-                    <Col className = "timetb-footing">Thu</Col>
-                    <Col className = "timetb-footing">Fri</Col>
-                    <Col className = "timetb-footing">Sat</Col>
+                    <Col className = "timetb-footing"><span>Sun</span></Col>                        
+                    <Col className = "timetb-footing"><span>Mon</span></Col>
+                    <Col className = "timetb-footing"><span>Tue</span></Col>
+                    <Col className = "timetb-footing"><span>Wed</span></Col>
+                    <Col className = "timetb-footing"><span>Thu</span></Col>
+                    <Col className = "timetb-footing"><span>Fri</span></Col>
+                    <Col className = "timetb-footing"><span>Sat</span></Col>
                     <Col></Col>
                 </Row>
                 </div>

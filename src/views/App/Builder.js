@@ -46,6 +46,7 @@ class Builder extends React.Component {
             filter: ""
         }
 
+        this.toggleTwelveHour = this.toggleTwelveHour.bind(this);
         this.toggleVirtual = this.toggleVirtual.bind(this);
         this.setFilter = this.setFilter.bind(this);
         this.addSelectedToClipboard = this.addSelectedToClipboard.bind(this);
@@ -193,6 +194,14 @@ class Builder extends React.Component {
         return("cl-filtered-item");
     }
 
+    toggleTwelveHour() {
+        if(this.state.twelve_hr) {
+            this.setState({twelve_hr : false});
+        } else {
+            this.setState({twelve_hr : true});
+        }
+    }
+
     render() {
 
         return (
@@ -226,15 +235,15 @@ class Builder extends React.Component {
                                                 <Button
                                                     className=""
                                                     color="default"
-                                                    onClick={() => this.toggleModal("defaultModal")}
+                                                    onClick={() => this.toggleModal("Builder")}
                                                     block
                                                 >
                                                     Build
                                                 </Button>
                                                 <Modal
                                                     className="modal-dialog-centered"
-                                                    isOpen={this.state.defaultModal}
-                                                    toggle={() => this.toggleModal("defaultModal")}
+                                                    isOpen={this.state.Builder}
+                                                    toggle={() => this.toggleModal("Builder")}
                                                 >
                                                     <div>
                                                         <Timetable 
@@ -242,29 +251,6 @@ class Builder extends React.Component {
                                                             timeformat = {this.state.twelve_hr}
                                                         />
                                                     </div>
-
-                                                    {/*
-                                                    <div className="modal-header">
-                                                        <h6 className="modal-title" id="modal-title-default">
-                                                            We're sorry!
-                                                        </h6>
-                                                        <button
-                                                            aria-label="Close"
-                                                            className="close"
-                                                            data-dismiss="modal"
-                                                            type="button"
-                                                            onClick={() => this.toggleModal("defaultModal")}
-                                                        >
-                                                            <span aria-hidden={true}>×</span>
-                                                        </button>
-                                                    </div>
-                                                    <div className="modal-body">
-                                                        <p>
-                                                            This functionality is still being developed.
-                                                            Hang tight!
-                                                         </p>
-                                                    </div>
-                                                    */}
                                                     <div className="modal-footer">
                                                         <div>
                                                         <Badge className="text-uppercase" color="danger">Work in progress</Badge>
@@ -274,7 +260,7 @@ class Builder extends React.Component {
                                                             color="link"
                                                             data-dismiss="modal"
                                                             type="button"
-                                                            onClick={() => this.toggleModal("defaultModal")}
+                                                            onClick={() => this.toggleModal("Builder")}
                                                         >
                                                             Close
                                                         </Button>
@@ -294,21 +280,82 @@ class Builder extends React.Component {
                                             <Button
                                                     className=""
                                                     color="secondary"
-                                                    //onClick={this.addSelectedToClipboard}
+                                                    onClick={() => this.toggleModal("FilterModal")}
                                                     block
                                                 >
                                                     Filters
                                             </Button>
+                                            <Modal
+                                                    className="modal-dialog-centered"
+                                                    isOpen={this.state.FilterModal}
+                                                    toggle={() => this.toggleModal("FilterModal")}
+                                                >
+                                                        <div className="modal-header">
+                                                        <h6 className="modal-title" id="modal-title-default">
+                                                            Filters
+                                                        </h6>
+                                                        <button
+                                                            aria-label="Close"
+                                                            className="close"
+                                                            data-dismiss="modal"
+                                                            type="button"
+                                                            onClick={() => this.toggleModal("FilterModal")}
+                                                        >
+                                                            <span aria-hidden={true}>×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <p>
+                                                            This functionality is still being developed.
+                                                            Hang tight!
+                                                         </p>
+                                                    </div>
+                                            </Modal>
                                             </Col>
                                             <Col s={4}>
                                             <Button
                                                     className=""
                                                     color="primary"
-                                                    //onClick={this.addSelectedToClipboard}
+                                                    onClick={() => this.toggleModal("Options")}
                                                     block
                                                 >
                                                     Options
                                             </Button>
+                                            <Modal
+                                                    className="modal-dialog-centered"
+                                                    isOpen={this.state.Options}
+                                                    toggle={() => this.toggleModal("Options")}
+                                                >
+                                                        <div className="modal-header">
+                                                        <h6 className="modal-title" id="modal-title-default">
+                                                            Options
+                                                        </h6>
+                                                        <button
+                                                            aria-label="Close"
+                                                            className="close"
+                                                            data-dismiss="modal"
+                                                            type="button"
+                                                            onClick={() => this.toggleModal("Options")}
+                                                        >
+                                                            <span aria-hidden={true}>×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <div className="mb-3">	
+                                                        <small className="text-uppercase font-weight-bold">	
+                                                            12-hr Mode
+                                                        </small>	
+                                                        </div>
+                                                        <label className="custom-toggle">	
+                                                        <input type="checkbox" onChange ={this.toggleTwelveHour} defaultValue={this.state.twelve_hr}/>	
+                                                        <span className="custom-toggle-slider rounded-circle" />	
+                                                        </label>
+                                                        <p>
+                                                            This functionality is still being developed.
+                                                            Hang tight!
+                                                        </p>
+                                                    </div>
+                                            </Modal>
                                             </Col>
                                         </Row>
                                     </div>
