@@ -6,10 +6,12 @@
 
 .timetb-ol {
     background-color:  #e4405eb4;
+    filter: drop-shadow(.3vw .3vw .3vw black);
 }
 
 .timetb-rg {
     background-color: #4555ffb2;
+    filter: drop-shadow(.3vw .3vw .3vw black);
 }
 
 .timetb-time {
@@ -19,7 +21,15 @@
 }
 
 .timetb-footing {
-    left: 2vw;
+    text-align: center;
+    font-weight: bold;
+    span {
+        display: inline-block;
+        background-color: rgba(34, 45, 110, 0.836);
+        padding: 1px 15px 1px;
+        border-radius: 5px;
+        color: white;
+    }
 }
 
 .timetb-col {

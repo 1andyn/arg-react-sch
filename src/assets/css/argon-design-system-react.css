@@ -11953,9 +11953,16 @@ a.text-lighter:hover, a.text-lighter:focus {
   /* Custom CSS to make a badge clickable and react to interaction */ }
   .badge-button:hover {
     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px); }
+    transform: translateY(-1px);
+    filter: brightness(85%); }
   .badge-button:not(:last-child) {
     margin-right: .5rem; }
+  .badge-button:focus {
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    transform: translateY(0px); }
+  .badge-button:active {
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    transform: translateY(0px); }
 
 .badge {
   text-transform: uppercase; }
@@ -13790,10 +13797,12 @@ textarea[resize="horizontal"] {
   line-height: .3; }
 
 .timetb-ol {
-  background-color: #e4405eb4; }
+  background-color: #e4405eb4;
+  filter: drop-shadow(0.3vw 0.3vw 0.3vw black); }
 
 .timetb-rg {
-  background-color: #4555ffb2; }
+  background-color: #4555ffb2;
+  filter: drop-shadow(0.3vw 0.3vw 0.3vw black); }
 
 .timetb-time {
   font-size: .9rem;
@@ -13801,7 +13810,14 @@ textarea[resize="horizontal"] {
   font-weight: bold; }
 
 .timetb-footing {
-  left: 2vw; }
+  text-align: center;
+  font-weight: bold; }
+  .timetb-footing span {
+    display: inline-block;
+    background-color: rgba(34, 45, 110, 0.836);
+    padding: 1px 15px 1px;
+    border-radius: 5px;
+    color: white; }
 
 .timetb-col {
   border-right: 1px solid #252744; }
@@ -13812,6 +13828,9 @@ textarea[resize="horizontal"] {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center; }
+
+.cl-filtered-item {
+  display: none; }
 
 .section-scroll {
   height: calc(100vh - 300px);

@@ -6,10 +6,21 @@
     &:hover {
         @include box-shadow($btn-hover-box-shadow);
         transform: translateY(-1px);
+        filter: brightness(85%);
     }
 
     &:not(:last-child) {
         margin-right: .5rem;
+    }
+
+    &:focus {
+        box-shadow:  0 0px 0px rgba(0, 0, 0, 0);
+        transform: translateY(0px);
+    }
+
+    &:active {
+        box-shadow:  0 0px 0px rgba(0, 0, 0, 0);
+        transform: translateY(0px);
     }
 }
 
