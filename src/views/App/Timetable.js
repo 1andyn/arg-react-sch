@@ -172,17 +172,42 @@ class Timetable extends React.Component {
 
     }
 
+    timeTableStart() {
+        //table is sorted so check for first non-zero value
+        var timetable = this.state.tt_base;
+        var padding = 30; //pad half an hour
+        for(var x = 0; x < timetable.length; x++) {
+            if(timetable[x][0] != 0)
+                return timetable[x][0] - padding;
+        }
+        return 0;
+    }
 
-
+    timeTableEnd() {
+        //traverse backwards look for largest end
+        var timetable = this.state.tt_base;
+        var padding = 30; //pad half an hour
+        var max_end = 0;
+        for(var x = timetable.length - 1; x >= 0; x--) {
+            max_end = Math.max(max_end, timetable[x][1] + padding);
+        }
+        return max_end;
+    }
 
     drawTable() {
 
-        //160 Rows
-        // 6AM - 9PM support
-        // 15 hours, 5 minute intervals, 12 chunks per hour (12*15)
+        //216 Rows
+        // 5AM - 10PM support (based on querying MongoDB for limits)
 
         var table_data = [];
-        for (var i = 0; i < 160; i++) {
+        var time_start = this.timeTableStart();
+        var time_end = this.timeTableEnd();
+
+        if(time_start === time_end)
+            return (<Row className ="timetb-msg"><span>
+                Please add courses (non TBA) before trying to build schedules!</span></Row>);
+        
+        for (var i = 0; i < 216; i++) {
 
             var r_key = i + "_r";
 
@@ -197,10 +222,14 @@ class Timetable extends React.Component {
             var sa_key = i + "_sa";
 
             //add time to every hour
-            var time_ind = i % 12 === 0 ? String(600 + (i/12)*100) : "";
-            var time = 600 + (i/12)*100;
+            var time_ind = i % 12 === 0 ? String(500 + (i/12)*100) : "";
+            var time = 500 + (i/12)*100;
 
             time_ind = this.timeFormat(time_ind);
+
+            //don't build logic if the time is out of the bounds of the start and end
+            if(time < time_start || time > time_end)
+                continue;
 
             var sel_u = this.getFormattingForDay("U", time);
             var sel_m = this.getFormattingForDay("M", time);
@@ -233,6 +262,28 @@ class Timetable extends React.Component {
         return table_data;
     }
 
+    drawTableFooter(){
+        var time_start = this.timeTableStart();
+        var time_end = this.timeTableEnd();
+
+        if(time_start === time_end)
+            return (<Row></Row>);
+
+        return (
+            <Row>
+            <Col></Col>
+            <Col className = "timetb-footing"><span>Sun</span></Col>                        
+            <Col className = "timetb-footing"><span>Mon</span></Col>
+            <Col className = "timetb-footing"><span>Tue</span></Col>
+            <Col className = "timetb-footing"><span>Wed</span></Col>
+            <Col className = "timetb-footing"><span>Thu</span></Col>
+            <Col className = "timetb-footing"><span>Fri</span></Col>
+            <Col className = "timetb-footing"><span>Sat</span></Col>
+            <Col></Col>
+            </Row>
+        );
+    }
+
     render() {
 
         var tables = this.drawTable()
@@ -253,17 +304,7 @@ class Timetable extends React.Component {
                     <Col></Col>
                 </Row>
                 {tables}
-                <Row>
-                    <Col></Col>
-                    <Col className = "timetb-footing"><span>Sun</span></Col>                        
-                    <Col className = "timetb-footing"><span>Mon</span></Col>
-                    <Col className = "timetb-footing"><span>Tue</span></Col>
-                    <Col className = "timetb-footing"><span>Wed</span></Col>
-                    <Col className = "timetb-footing"><span>Thu</span></Col>
-                    <Col className = "timetb-footing"><span>Fri</span></Col>
-                    <Col className = "timetb-footing"><span>Sat</span></Col>
-                    <Col></Col>
-                </Row>
+                {this.drawTableFooter()}
                 </div>
             </>
         );

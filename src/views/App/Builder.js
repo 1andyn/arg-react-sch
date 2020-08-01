@@ -251,7 +251,7 @@ class Builder extends React.Component {
                                                             timeformat = {this.state.twelve_hr}
                                                         />
                                                     </div>
-                                                    <div className="modal-footer">
+                                                    <div className="modal-footer mt-3">
                                                         <div>
                                                         <Badge className="text-uppercase" color="danger">Work in progress</Badge>
                                                         </div>

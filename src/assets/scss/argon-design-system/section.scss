@@ -32,6 +32,14 @@
     }
 }
 
+.timetb-msg {
+    font-weight: bold;
+    span {
+        display:table;
+        margin:0 auto
+    }
+}
+
 .timetb-col {
     //border-left: 1px solid rgb(37, 39, 68);
     border-right: 1px solid rgb(37, 39, 68);
