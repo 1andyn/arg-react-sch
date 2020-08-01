@@ -177,7 +177,7 @@ class Timetable extends React.Component {
         var timetable = this.state.tt_base;
         var padding = 30; //pad half an hour
         for(var x = 0; x < timetable.length; x++) {
-            if(timetable[x][0] != 0)
+            if(timetable[x][0] !== 0)
                 return timetable[x][0] - padding;
         }
         return 0;
