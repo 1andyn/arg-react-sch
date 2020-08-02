@@ -42,7 +42,7 @@ class Builder extends React.Component {
             vcp_list: new Map(),
             crs_list: [],
             clp_list: [],
-            twelve_hr : false,
+            twelve_hr : true,
             filter: ""
         }
 
@@ -199,6 +199,32 @@ class Builder extends React.Component {
             this.setState({twelve_hr : false});
         } else {
             this.setState({twelve_hr : true});
+        }
+    }
+
+    timeFormat(time) {
+
+        time = String(time);
+
+        if (time === "") return "";
+        if (time === "0" || time === "TBA") return "TBA";
+
+        if(this.state.twelve_hr) {
+            if(time.length === 4) {
+                var hr = parseInt(time.substr(0,2));
+                var tag = hr >= 12 ? "PM" : "AM";
+                hr = (hr > 12) ? (hr % 12) : hr;
+                return String(hr) + ":" + time.substr(2) + " " + tag;
+            } else {
+                return time.substr(0,1) + ":" + time.substr(1) + " AM";
+            }
+
+        } else {
+            if(time.length === 4) {
+                return time.substr(0,2) + ":" + time.substr(2);
+            } else {
+                return time.substr(0,1) + ":" + time.substr(1);
+            }
         }
     }
 
@@ -371,11 +397,14 @@ class Builder extends React.Component {
                                                                     <Col><h6 className="mb-0 heading-title text-primary">{crs.strTitle}</h6></Col>
                                                                 </Row>
                                                                 <Row>
-                                                                    <Col xs={3}>{crs.strCourse}</Col>
-                                                                    <Col xs={4}>{crs.strInstr}</Col>
-                                                                    <Col xs={3}><Badge className="text-uppercase" color={crs.intSeats === 0 ? "warning" : "primary"}>Seats: {crs.intSeats} </Badge>
-                                                                        <Badge className="text-uppercase" color={crs.intWaitAvail === 0 ? "warning" : "primary"}>Wait: {crs.intWaitAvail}</Badge></Col>
-                                                                    <Col>
+                                                                    <Col xs={3}><span className ="less-strong">{crs.strCourse}</span></Col>
+                                                                    <Col xs={4}><span>{crs.strInstr}</span></Col>
+                                                                    <Col xs={4}>
+                                                                        <Badge className="text-uppercase less-strong" 
+                                                                            color={crs.intSeats > 0 ? crs.intSeats > 2 ? "primary": "warning" : "danger"}>Seats: {crs.intSeats} </Badge>
+                                                                        <Badge className="text-uppercase less-strong" 
+                                                                            color={crs.intWaitAvail > 0 ? crs.intWaitAvail > 2 ? "primary": "warning" : "danger"}>Wait: {crs.intWaitAvail}</Badge></Col>
+                                                                    <Col xs={1}>
                                                                         <div className="custom-control custom-checkbox float-right">
                                                                             <input
                                                                                 className="custom-control-input"
@@ -389,30 +418,27 @@ class Builder extends React.Component {
                                                                     </Col>
                                                                 </Row>
                                                                 <Row>
-                                                                    <Col><span className="text-success">{crs.strCRN}</span></Col>
-                                                                    <Col xs={4}>
+                                                                    <Col xs={2}><span className="text-success strong">{crs.strCRN}</span></Col>
+                                                                    <Col xs={3}>
                                                                         <Badge className="text-uppercase" color="primary" pill>
-                                                                            {crs.intTimeStart === 0 ? "Start: TBA" : "Start: " + crs.intTimeStart}</Badge>
-                                                                        <Badge className="text-uppercase" color="primary" pill>
-                                                                            {crs.intTimeEnd === 0 ? "End: TBA" : "End: " + crs.intTimeEnd}</Badge>
+                                                                            {this.timeFormat(crs.intTimeStart) + " - " + this.timeFormat(crs.intTimeEnd)}</Badge>
                                                                     </Col>
-                                                                    <Col xs={3}>{crs.arrDays.map(day => (
-                                                                        <Badge className="text-uppercase" color="success" key={crs.strCrn + "_" + day} pill>{day}</Badge>
+                                                                    <Col xs={2}>{crs.arrDays.map(day => (
+                                                                        <Badge className="text-uppercase badge-day" color="success" key={crs.strCrn + "_" + day}>{day}</Badge>
                                                                     ))}</Col>
-                                                                    <Col><Badge className="text-uppercase" color="info-less">Room: {crs.strRoom}</Badge></Col>
+                                                                    <Col xs={4}><Badge className="text-uppercase" color="info-less">Room: {crs.strRoom}</Badge></Col>
                                                                     <Col></Col>
                                                                 </Row>
                                                                 <Row>
-                                                                    <Col></Col>
-                                                                    <Col xs={4}>
+                                                                    <Col xs={2}></Col>
+                                                                    <Col xs={3}>
                                                                         <Badge className="text-uppercase" color="primary" pill>
-                                                                            {crs.strRoom2 === "" ? "" : crs.intTimeStart2 === 0 ? "Start: " + crs.intTimeStart2 : "Start: TBA"}</Badge>
-                                                                        <Badge className="text-uppercase" color="primary" pill>
-                                                                            {crs.strRoom2 === "" ? "" : crs.intTimeEnd2 === 0 ? "End: " + crs.intTimeEnd2 : "End: TBA"}</Badge></Col>
-                                                                    <Col xs={3}>{crs.strRoom2 === "" ? "" : crs.arrDays2.map(day => (
-                                                                        <Badge className="text-uppercase" color="success" key={crs.strCrn + "_2" + day} pill>{day}</Badge>
+                                                                            {crs.strRoom2 === "" ? "" : this.timeFormat(crs.intTimeStart2)
+                                                                            + " - " + this.timeFormat(crs.intTimeEnd2)}</Badge></Col>
+                                                                    <Col xs={2}>{crs.strRoom2 === "" ? "" : crs.arrDays2.map(day => (
+                                                                        <Badge className="text-uppercase badge-day" color="success" key={crs.strCrn + "_2" + day}>{day}</Badge>
                                                                     ))}</Col>
-                                                                    <Col><Badge className="text-uppercase" color="info-less">{crs.strRoom2 === "" ? "" : "Room: " + crs.strRoom2}</Badge></Col>
+                                                                    <Col xs={4}><Badge className="text-uppercase" color="info-less">{crs.strRoom2 === "" ? "" : "Room: " + crs.strRoom2}</Badge></Col>
                                                                     <Col></Col>
                                                                 </Row>
                                                             </ListGroupItem>

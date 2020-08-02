@@ -1,5 +1,22 @@
 // General styles
 
+.strong {
+	font-weight: 600;
+}
+
+.less-strong {
+	font-weight: 550;
+}
+
+.text-no-str {
+	font-weight: 500;
+}
+
+.text-widthhold {
+	visibility: hidden;
+}
+
+
 p {
 	font-size: $paragraph-font-size;
 	font-weight: $paragraph-font-weight;

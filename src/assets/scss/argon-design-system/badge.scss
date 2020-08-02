@@ -32,6 +32,19 @@
     }
 }
 
+.badge-day {
+    border-radius: 30px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 1;
+    //transform: scale(1, .95);
+    font-weight: 600;
+    font-size: 75%;
+    font-family: 'Inconsolata';
+}
+
 // Variations
 .badge-pill {
     padding-right: $badge-pill-padding-x;

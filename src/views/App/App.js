@@ -50,7 +50,15 @@ class App extends React.Component {
     const apiUrl = end.crs_d + "/campus/list/";
     fetch(apiUrl)
       .then((response) => response.json())
-      .then((data) => this.setState({school_list : data}))
+      .then((data) => {
+                //prioritize MANOA
+                var schools = data;
+                schools.sort((crs_1, crs_2) => {
+                if (crs_1.strSchoolCode === "MAN") return -1;
+                if (crs_2.strSchoolCode === "MAN") return 1;
+                return (crs_1.strSchoolCode) - (crs_2.strSchoolCode);
+                });
+      this.setState({school_list : schools})});
   };
 
   restartApp = () => {

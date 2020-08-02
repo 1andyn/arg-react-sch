@@ -13819,6 +13819,12 @@ textarea[resize="horizontal"] {
     border-radius: 5px;
     color: white; }
 
+.timetb-msg {
+  font-weight: bold; }
+  .timetb-msg span {
+    display: table;
+    margin: 0 auto; }
+
 .timetb-col {
   border-right: 1px solid #252744; }
 
