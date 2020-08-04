@@ -424,7 +424,7 @@ class Builder extends React.Component {
                                                                             {this.timeFormat(crs.intTimeStart) + " - " + this.timeFormat(crs.intTimeEnd)}</Badge>
                                                                     </Col>
                                                                     <Col xs={2}>{crs.arrDays.map(day => (
-                                                                        <Badge className="text-uppercase badge-day" color="success" key={crs.strCrn + "_" + day}>{day}</Badge>
+                                                                        <Badge className="text-uppercase badge-day" color={day === "TBA" ? "warning" : "success"} key={crs.strCrn + "_" + day}>{day}</Badge>
                                                                     ))}</Col>
                                                                     <Col xs={4}><Badge className="text-uppercase" color="info-less">Room: {crs.strRoom}</Badge></Col>
                                                                     <Col></Col>
