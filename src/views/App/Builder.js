@@ -277,20 +277,62 @@ class Builder extends React.Component {
                                                             timeformat = {this.state.twelve_hr}
                                                         />
                                                     </div>
-                                                    <div className="modal-footer mt-3">
-                                                        <div>
-                                                        <Badge className="text-uppercase" color="danger">Work in progress</Badge>
-                                                        </div>
-                                                        <Button
-                                                            className="ml-auto"
-                                                            color="link"
-                                                            data-dismiss="modal"
-                                                            type="button"
-                                                            onClick={() => this.toggleModal("Builder")}
-                                                        >
-                                                            Close
-                                                        </Button>
-                                                    </div>
+                                                    <div className="modal-footer mt-3"></div>
+                                                    <ListGroup>    
+                                                        <ListGroupItem className="timetb-listitem">
+                                                            <div>
+                                                                <Badge className="text-uppercase" color="danger">Work in progress</Badge>
+                                                            </div>
+                                                        </ListGroupItem>
+                                                            <div>
+
+                                                            {this.state.clp_list.map(clip => (
+                                                                <ListGroupItem key={clip.strCRN + "_clp"} className="timetb-listitem">
+                                                                <Row>
+                                                                    <Col s={1} className="timetb-foot-nr">
+                                                                        <Badge className="text-uppercase" color="primary">{clip.strCRN}</Badge>
+                                                                    </Col>
+                                                                    <Col s={1} className="timetb-foot-nlnr">
+                                                                        <Badge className="text-uppercase" color="prime-dark">{clip.strCourse}</Badge>
+                                                                    </Col>
+                                                                    <Col s={1} className="timetb-foot-nr">
+                                                                        <Badge className="text-uppercase" color="primary" pill>
+                                                                            {this.timeFormat(clip.intTimeStart) + " - " + this.timeFormat(clip.intTimeEnd)}</Badge>
+                                                                    </Col>
+                                                                    <Col s={3} className="timetb-foot-nlnr">
+                                                                    <Badge className="text-uppercase badge-day" color="success">{clip.arrDays.map(day => (<span key={clip.strCrn+day}>{day}</span>))}</Badge>
+                                                                    </Col>
+                                                                    <Col s={1} className="timetb-foot-nr"><Badge className="text-uppercase" color="info-less">Room: {clip.strRoom}</Badge></Col>
+                                                                    <Col s={1} className="timetb-foot-nr">
+                                                                        <Badge className="text-uppercase" color="primary" pill>
+                                                                            {clip.strRoom2 === "" ? "" : this.timeFormat(clip.intTimeStart2)
+                                                                            + " - " + this.timeFormat(clip.intTimeEnd2)}</Badge>
+                                                                    </Col>
+                                                                    <Col s={3} className="timetb-foot-nlr">{clip.strRoom2 === "" ? "" : clip.arrDays2.map(day => (
+                                                                        <Badge className="text-uppercase badge-day" color={day === "TBA" ? "warning" : "success"} key={clip.strCrn + "_2" + day}>{day}</Badge>
+                                                                    ))}
+                                                                    </Col>
+                                                                    <Col s={1}><Badge className="text-uppercase" color="info-less">{clip.strRoom2 === "" ? "" : "Room: " + clip.strRoom2}</Badge></Col>
+                                                            
+                                                                </Row>
+                                                                </ListGroupItem>
+                                                            ))}
+
+                                                            </div>
+                                                        <ListGroupItem className="timetb-listitem">
+                                                            <div>
+                                                                <Button
+                                                                    className="ml-auto float-right"
+                                                                    color="link"
+                                                                    data-dismiss="modal"
+                                                                    type="button"
+                                                                    onClick={() => this.toggleModal("Builder")}
+                                                                >
+                                                                    Close
+                                                                </Button>
+                                                            </div>
+                                                        </ListGroupItem>
+                                                        </ListGroup>
                                                 </Modal>
                                             </Col>
                                         </Row>
@@ -436,7 +478,7 @@ class Builder extends React.Component {
                                                                             {crs.strRoom2 === "" ? "" : this.timeFormat(crs.intTimeStart2)
                                                                             + " - " + this.timeFormat(crs.intTimeEnd2)}</Badge></Col>
                                                                     <Col xs={2}>{crs.strRoom2 === "" ? "" : crs.arrDays2.map(day => (
-                                                                        <Badge className="text-uppercase badge-day" color="success" key={crs.strCrn + "_2" + day}>{day}</Badge>
+                                                                        <Badge className="text-uppercase badge-day" color={day === "TBA" ? "warning" : "success"} key={crs.strCrn + "_2" + day}>{day}</Badge>
                                                                     ))}</Col>
                                                                     <Col xs={4}><Badge className="text-uppercase" color="info-less">{crs.strRoom2 === "" ? "" : "Room: " + crs.strRoom2}</Badge></Col>
                                                                     <Col></Col>
