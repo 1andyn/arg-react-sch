@@ -1,5 +1,4 @@
 // Space list items
-
 .list-group-space {
     .list-group-item {
         margin-bottom: 1.5rem;
@@ -7,9 +6,7 @@
     }
 }
 
-
 // List group components
-
 .list-group-img {
     width: 3rem;
     height: 3rem;
@@ -36,4 +33,23 @@
     float: right;
     color: $gray-500;
     font-weight: 500;
+}
+//Custom List Group CSS
+.lgi-clp {
+    padding: .4em;
+}
+
+.clip-list-col {
+	max-width: 95%;
+	padding-right: 0px;
+}
+
+.clip-row-title {
+	background: $clp-bg-blue;
+}
+
+.clip-row-width {
+    max-width: 100%;
+    margin-right: -10px;
+    margin-left: -5px;
 }

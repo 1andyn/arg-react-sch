@@ -291,29 +291,22 @@ class Builder extends React.Component {
                                                                 <Row>
                                                                     <Col s={1} className="timetb-foot-nr">
                                                                         <Badge className="text-uppercase" color="primary">{clip.strCRN}</Badge>
+                                                                        <Badge className="text-uppercase ml-1" color="prime-dark">{clip.strCourse}</Badge>
                                                                     </Col>
-                                                                    <Col s={1} className="timetb-foot-nlnr">
-                                                                        <Badge className="text-uppercase" color="prime-dark">{clip.strCourse}</Badge>
-                                                                    </Col>
-                                                                    <Col s={1} className="timetb-foot-nr">
+                                                                    <Col s={3}className="timetb-foot-nr">
                                                                         <Badge className="text-uppercase" color="primary" pill>
                                                                             {this.timeFormat(clip.intTimeStart) + " - " + this.timeFormat(clip.intTimeEnd)}</Badge>
+                                                                        <Badge className="text-uppercase badge-day ml-1" color="success">{clip.arrDays.map(day => (<span key={clip.strCrn+day}>{day}</span>))}</Badge>
+                                                                        <Badge className="text-uppercase ml-1" color="info">Room: {clip.strRoom}</Badge>
                                                                     </Col>
-                                                                    <Col s={3} className="timetb-foot-nlnr">
-                                                                    <Badge className="text-uppercase badge-day" color="success">{clip.arrDays.map(day => (<span key={clip.strCrn+day}>{day}</span>))}</Badge>
-                                                                    </Col>
-                                                                    <Col s={1} className="timetb-foot-nr"><Badge className="text-uppercase" color="info-less">Room: {clip.strRoom}</Badge></Col>
-                                                                    <Col s={1} className="timetb-foot-nr">
+                                                                    <Col s={3} className="timetb-foot-nr">
                                                                         <Badge className="text-uppercase" color="primary" pill>
                                                                             {clip.strRoom2 === "" ? "" : this.timeFormat(clip.intTimeStart2)
                                                                             + " - " + this.timeFormat(clip.intTimeEnd2)}</Badge>
+                                                                        {clip.strRoom2 === "" ? "" : clip.arrDays2.map(day => (
+                                                                        <Badge className="text-uppercase badge-day ml-1" color={day === "TBA" ? "warning" : "success"} key={clip.strCrn + "_2" + day}>{day}</Badge>))}
+                                                                        <Badge className="text-uppercase ml-1" color="info-less">{clip.strRoom2 === "" ? "" : "Room: " + clip.strRoom2}</Badge>
                                                                     </Col>
-                                                                    <Col s={3} className="timetb-foot-nlr">{clip.strRoom2 === "" ? "" : clip.arrDays2.map(day => (
-                                                                        <Badge className="text-uppercase badge-day" color={day === "TBA" ? "warning" : "success"} key={clip.strCrn + "_2" + day}>{day}</Badge>
-                                                                    ))}
-                                                                    </Col>
-                                                                    <Col s={1}><Badge className="text-uppercase" color="info-less">{clip.strRoom2 === "" ? "" : "Room: " + clip.strRoom2}</Badge></Col>
-                                                            
                                                                 </Row>
                                                                 </ListGroupItem>
                                                             ))}
@@ -444,7 +437,7 @@ class Builder extends React.Component {
                                                                     <Col xs={4}>
                                                                         <Badge className="text-uppercase less-strong" 
                                                                             color={crs.intSeats > 0 ? crs.intSeats > 2 ? "primary": "warning" : "danger"}>Seats: {crs.intSeats} </Badge>
-                                                                        <Badge className="text-uppercase less-strong" 
+                                                                        <Badge className="text-uppercase less-strong ml-1" 
                                                                             color={crs.intWaitAvail > 0 ? crs.intWaitAvail > 2 ? "primary": "warning" : "danger"}>Wait: {crs.intWaitAvail}</Badge></Col>
                                                                     <Col xs={1}>
                                                                         <div className="custom-control custom-checkbox float-right">
@@ -488,23 +481,21 @@ class Builder extends React.Component {
                                                     </ListGroup>
                                                 </div>
                                             </Col>
-                                            <Col s={4} className = "section-no-x-flow">
+                                            <Col s={4} className = "section-no-x-flow clip-list-col">
                                                 <div className="section-scroll">
-                                                    <ListGroup className = "">
+                                                    <ListGroup className = "clip-list-col">
                                                         {this.helpDisplayClipList()}
                                                         {this.state.clp_list.map(clip =>
-                                                            <ListGroupItem key={clip.strCRN + "_clp"}>
-                                                                <Row>
+                                                            <ListGroupItem className="lgi-clp" key={clip.strCRN + "_clp"}>
+                                                                <Row className = "clip-row-title clip-row-width">
                                                                     <Col>
-                                                                        <Badge className="text-uppercase" color="prime-dark">{clip.strTitle}</Badge>
-                                                                    </Col>
-                                                                    <Col>
+                                                                        <div className="clp-list-title">{clip.strTitle}</div>
                                                                     </Col>
                                                                 </Row>
-                                                                <Row>
+                                                                <Row className = "clip-row-width">
                                                                     <Col>
                                                                         <Badge className="text-uppercase" color="primary">{clip.strCourse}</Badge>
-                                                                        <Badge className="text-uppercase" color="success" pill>{clip.strCRN}</Badge>
+                                                                        <Badge className="text-uppercase ml-1" color="success" pill>{clip.strCRN}</Badge>
                                                                     </Col>
                                                                     <div className = "float-right">
                                                                         <Badge 
