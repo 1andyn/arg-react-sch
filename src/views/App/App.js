@@ -56,8 +56,7 @@ class App extends React.Component {
                 schools.sort((crs_1, crs_2) => {
                 if (crs_1.strSchoolCode === "MAN") return -1;
                 if (crs_2.strSchoolCode === "MAN") return 1;
-                return (crs_1.strSchoolCode) - (crs_2.strSchoolCode);
-                });
+                return (crs_1.strSchoolCode) - (crs_2.strSchoolCode);});
       this.setState({school_list : schools})});
   };
 
@@ -84,13 +83,17 @@ class App extends React.Component {
     const apiUrl = end.crs_d + "/term/" + code.strSchoolCode;
     fetch(apiUrl)
       .then((response) => response.json())
-      .then((data) => this.setState({term_list : data}))
-    this.setState({
-      school: code.strSchoolDesc, 
-      school_code : code.strSchoolCode,
-      stage: "select-term"
-    });
-
+      .then((data) => {
+        /* Term Codes */
+        var terms = data;
+        terms.sort((trm_1, trm_2) => {
+        return (trm_2.strTermCode) - (trm_1.strTermCode);});
+      this.setState({
+        term_list : terms,
+        school: code.strSchoolDesc, 
+        school_code : code.strSchoolCode,
+        stage: "select-term"
+      });})
   }
 
   setTerm (code) {
@@ -99,14 +102,24 @@ class App extends React.Component {
         const apiUrl = end.crs_d + "/subs/" + this.state.school_code + "/" + code.strTermCode;
         fetch(apiUrl)
           .then((response) => response.json())
-          .then((data) => this.setState({sub_list : data}))
+          .then((data) => {
+            var subs = data;
+            subs.sort((sub_1, sub_2) => {
+              if (sub_1.strSubCode < sub_2.strSubCode) {
+                return -1;
+              } else if (sub_1.strSubCode > sub_2.strSubCode) {
+                  return 1;
+              }
+              return 0;
+              });
           this.setState({
+            sub_list : subs,
             term: code.strTermCode,
             stage: "builder"
-        });
+        });})
 
+        
   }
-
 
   render() {
 
