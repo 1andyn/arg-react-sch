@@ -26,13 +26,35 @@ import {
     ListGroupItem
 } from "reactstrap";
 
+import TimeKeeper from 'react-timekeeper';
 import Timetable from "views/App/Timetable.js";
-
 import Select from 'react-select'
 
 //end points
 const end = require('./Endpoints');
 
+function TimePicker(){
+    const [time, setTime] = React.useState('12:00pm')
+    const [showTime, setShowTime] = React.useState(true)
+
+    return (
+        <div>
+            {showTime &&
+                <TimeKeeper
+                    time={time}
+                    onChange={(newTime) => setTime(newTime.formatted12)}
+                    onDoneClick={() => setShowTime(false)}
+                    switchToMinuteOnHourSelect
+                />
+            }
+            <span>Time is {time}</span>
+            {!showTime &&
+                <button onClick={() => setShowTime(true)}>Show</button>
+            }
+        </div>
+    )
+
+}
 class Builder extends React.Component {
 
     constructor(props) {
@@ -366,10 +388,102 @@ class Builder extends React.Component {
                                                         </button>
                                                     </div>
                                                     <div className="modal-body">
-                                                        <p>
-                                                            This functionality is still being developed.
-                                                            Hang tight!
-                                                         </p>
+                                                        <Container>
+                                                            <Row>
+                                                            <Col s={3}>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">		
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                            Hide <b>Full</b> Courses (zero seats remaining)
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">	
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Monday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">		
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Tuesday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">	
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Wednesday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">	
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Thursday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">	
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Friday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <div className="mb-3 mr-3">	
+                                                                    <small className="text-uppercase font-weight-bold">	
+                                                                        Hide <b>Saturday</b> Courses
+                                                                    </small>	
+                                                                    </div>
+                                                                    <label className="custom-toggle">	
+                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
+                                                                    <span className="custom-toggle-slider rounded-circle" />	
+                                                                    </label>
+                                                                </Row>
+                                                                <Row>
+                                                                    <p>
+                                                                        <b>This functionality is still being developed.</b>
+                                                                    </p>
+                                                                </Row>
+                                                            </Col>
+                                                            <Col s={3}>
+                                                                <Row>
+                                                                    <TimePicker/>
+                                                                </Row>
+                                                                <Row>
+                                                                    <TimePicker/>
+                                                                </Row>
+                                                            </Col>
+                                                            </Row>
+                                                        </Container>
                                                     </div>
                                             </Modal>
                                             </Col>

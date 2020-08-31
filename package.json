@@ -34,7 +34,7 @@
     "compile-sass": "node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css",
     "minify-sass": "node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.min.css --output-style compressed",
     "map-sass": "node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css --source-map true",
-	"all-sass" : "node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css && node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.min.css --output-style compressed && node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css --source-map true"
+    "all-sass": "node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css && node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.min.css --output-style compressed && node-sass src/assets/scss/argon-design-system-react.scss src/assets/css/argon-design-system-react.css --source-map true"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,6 +59,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
+    "react-timekeeper": "^2.1.1",
     "reactstrap": "8.5.1"
   },
   "devDependencies": {
