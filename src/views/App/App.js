@@ -31,11 +31,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       stage: "intro",
-      school_system: "UH",
+      schoolSystem: "UH",
       school: "",
-      school_list: [],
+      schoolList: [],
       term: "",
-      term_list: [],
+      termList: [],
       restarted : false
     };
     //child function call will hit this parent
@@ -57,18 +57,18 @@ class App extends React.Component {
                 if (crs_1.strSchoolCode === "MAN") return -1;
                 if (crs_2.strSchoolCode === "MAN") return 1;
                 return (crs_1.strSchoolCode) - (crs_2.strSchoolCode);});
-      this.setState({school_list : schools})});
+      this.setState({schoolList : schools})});
   };
 
   restartApp = () => {
     this.setState({
       stage: "intro-restarted",
       school: "",
-      school_code: "",
-      school_list: [],
-      sub_list: [],
+      schoolCode: "",
+      schoolList: [],
+      subList: [],
       term: "",
-      term_list: [],
+      termList: [],
       restarted: true
     }, () => {
       window.setTimeout(() => {
@@ -89,9 +89,9 @@ class App extends React.Component {
         terms.sort((trm_1, trm_2) => {
         return (trm_2.strTermCode) - (trm_1.strTermCode);});
       this.setState({
-        term_list : terms,
+        termList : terms,
         school: code.strSchoolDesc, 
-        school_code : code.strSchoolCode,
+        schoolCode : code.strSchoolCode,
         stage: "select-term"
       });})
   }
@@ -99,7 +99,7 @@ class App extends React.Component {
   setTerm (code) {
     //console.log("Term to set to: " + code.strTermCode)
         //retrieve subject list for school
-        const apiUrl = end.crs_d + "/subs/" + this.state.school_code + "/" + code.strTermCode;
+        const apiUrl = end.crs_d + "/subs/" + this.state.schoolCode + "/" + code.strTermCode;
         fetch(apiUrl)
           .then((response) => response.json())
           .then((data) => {
@@ -113,7 +113,7 @@ class App extends React.Component {
               return 0;
               });
           this.setState({
-            sub_list : subs,
+            subList : subs,
             term: code.strTermCode,
             stage: "builder"
         });})
@@ -167,7 +167,7 @@ class App extends React.Component {
           <section className="section section-hero section-shaped">
             <AppNavbar restartApp={this.restartApp} />
             <div className="shape shape-default"></div>
-            <School schoolist = {this.state.school_list} 
+            <School schoolist = {this.state.schoolList} 
               setSchool={this.setSchool}/>
           </section>
         </>
@@ -180,7 +180,7 @@ class App extends React.Component {
             <div className="shape shape-default"></div>
             <Terms 
               schoolname = {this.state.school}
-              termlist = {this.state.term_list}
+              termlist = {this.state.termList}
               setTerm = {this.setTerm} />
           </section>
         </>
@@ -192,9 +192,9 @@ class App extends React.Component {
             <AppNavbar restartApp={this.restartApp} />
             <div className="shape shape-default"></div>
             <Builder 
-              school = {this.state.school_code}
+              school = {this.state.schoolCode}
               term = {this.state.term}
-              sublist = {this.state.sub_list} />
+              sublist = {this.state.subList} />
           </section>
         </>
       );
