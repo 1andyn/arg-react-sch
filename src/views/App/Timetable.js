@@ -15,8 +15,6 @@ import React from "react";
 import {
     Row,
     Col
-    //Button
-    //Badge
 } from "reactstrap";
 
 class Timetable extends React.Component {
@@ -24,9 +22,9 @@ class Timetable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tt_base: [],
-            tt_base_o: [],
-            twelve_hr: this.props.timeformat
+            timetableBase: [],
+            timetableOverlap: [],
+            twelveHr: this.props.timeformat
         }
 
     }
@@ -37,60 +35,60 @@ class Timetable extends React.Component {
     }
 
     debugOutput() {
-        console.log(this.state.tt_base);
-        console.log(this.state.tt_base_o);
+        console.log(this.state.timetableBase);
+        console.log(this.state.timetableOverlap);
     }
 
     buildDailyTimetables() {
 
-        var tt_base_d = [];
+        var timetableBaseData = [];
 
-        var course_data = this.props.courses;
-        for(var i = 0; i < course_data.length; i++) {
+        var courseData = this.props.courses;
+        for(var i = 0; i < courseData.length; i++) {
             var day_data;
             for(var z = 0; z < 2; z++) {
                 if (z === 0) {
-                    day_data = course_data[i].arrDays;
+                    day_data = courseData[i].arrDays;
                 } else {
-                   day_data = course_data[i].arrDays2;
+                   day_data = courseData[i].arrDays2;
                 }
                 
                 for(var j = 0; j < day_data.length; j++) {
                     
-                    var start_end = [course_data[i].intTimeStart, course_data[i].intTimeEnd, course_data[i].strCRN, day_data[j]];
-                    var start_end2 = [course_data[i].intTimeStart2, course_data[i].intTimeEnd2, course_data[i].strCRN, day_data[j]];
+                    var startEnd = [courseData[i].intTimeStart, courseData[i].intTimeEnd, courseData[i].strCRN, day_data[j]];
+                    var startEnd2 = [courseData[i].intTimeStart2, courseData[i].intTimeEnd2, courseData[i].strCRN, day_data[j]];
 
-                    tt_base_d.push(start_end);
-                    tt_base_d.push(start_end2);
+                    timetableBaseData.push(startEnd);
+                    timetableBaseData.push(startEnd2);
 
                 }
             }
         }
 
         //sort based on sort time
-        tt_base_d.sort((crs_1, crs_2) => parseInt(crs_1[0]) - parseInt(crs_2[0]));
+        timetableBaseData.sort((crs_1, crs_2) => parseInt(crs_1[0]) - parseInt(crs_2[0]));
 
         //overlap data TO DO: Implement
-        var tt_base_o_d = [];
+        var timetableOverlapData = [];
 
-        var course_timedata = tt_base_d;
+        var courseTimeData = timetableBaseData;
 
-        for(i = 0; i < course_timedata.length - 1; i++) {
-            if (course_timedata[i][3] === "TBA" || course_timedata[i][0] === 0)
+        for(i = 0; i < courseTimeData.length - 1; i++) {
+            if (courseTimeData[i][3] === "TBA" || courseTimeData[i][0] === 0)
                 continue;
-            for(j = i + 1; j < course_timedata.length; j++){
-                if (course_timedata[j][3] === "TBA" || course_timedata[j][0] === 0)
+            for(j = i + 1; j < courseTimeData.length; j++){
+                if (courseTimeData[j][3] === "TBA" || courseTimeData[j][0] === 0)
                     continue;
-                if (course_timedata[i][3] === course_timedata[j][3] &&
-                    course_timedata[i][0] <= course_timedata[j][0] &&
-                    course_timedata[j][0] <= course_timedata[i][1]) {
+                if (courseTimeData[i][3] === courseTimeData[j][3] &&
+                    courseTimeData[i][0] <= courseTimeData[j][0] &&
+                    courseTimeData[j][0] <= courseTimeData[i][1]) {
                         //overlap, time is on same day
                         // list is sorted in ascending order so first course should start earlier to equal 
                         // if end time of first course is after the start of the second course, there is overlap
-                        var start_ol = Math.min(course_timedata[i][0], course_timedata[j][0]);
-                        var end_ol = Math.min(course_timedata[i][1], course_timedata[j][1]);
-                        var ol_row = [start_ol, end_ol, course_timedata[i][2] + "," + course_timedata[j][2], course_timedata[i][3]];
-                        tt_base_o_d.push(ol_row);
+                        var startOverlap = Math.min(courseTimeData[i][0], courseTimeData[j][0]);
+                        var endOverlap = Math.min(courseTimeData[i][1], courseTimeData[j][1]);
+                        var overlapRow = [startOverlap, endOverlap, courseTimeData[i][2] + "," + courseTimeData[j][2], courseTimeData[i][3]];
+                        timetableOverlapData.push(overlapRow);
                     }
 
             }
@@ -98,8 +96,8 @@ class Timetable extends React.Component {
         }
 
         this.setState({
-            tt_base: tt_base_d,
-            tt_base_o: tt_base_o_d
+            timetableBase: timetableBaseData,
+            timetableOverlap: timetableOverlapData
         });
 
     }
@@ -121,7 +119,7 @@ class Timetable extends React.Component {
 
         if (time === "") return "";
 
-        if(this.state.twelve_hr) {
+        if(this.state.twelveHr) {
             if(time.length === 4) {
                 var hr = parseInt(time.substr(0,2));
                 var tag = hr >= 12 ? "PM" : "AM";
@@ -142,8 +140,8 @@ class Timetable extends React.Component {
 
     getFormattingForDay(day, time){
 
-        var time_container = this.state.tt_base;
-        var time_container_ol = this.state.tt_base_o;
+        var timeContainer = this.state.timetableBase;
+        var timeContainerOverlap = this.state.timetableOverlap;
 
         /*
 
@@ -155,15 +153,19 @@ class Timetable extends React.Component {
         */
 
         //overlap gets priority
-        for(var i = 0; i < time_container_ol.length; i++) {
-            if(time_container_ol[i][0] <= time && time <= time_container_ol[i][1] && time_container_ol[i][3] === day) {
+        for(var i = 0; i < timeContainerOverlap.length; i++) {
+            if(timeContainerOverlap[i][0] <= time 
+                && time <= timeContainerOverlap[i][1] 
+                && timeContainerOverlap[i][3] === day) {
                 return " timetb-ol";
             }   
         }
 
-        //console.log(this.state.tt_base);
-        for(i = 0; i < time_container.length; i++) {
-            if(time_container[i][0] <= time && time <= time_container[i][1] && time_container[i][3] === day) {
+        //console.log(this.state.timetableBase);
+        for(i = 0; i < timeContainer.length; i++) {
+            if(timeContainer[i][0] <= time 
+                && time <= timeContainer[i][1] 
+                && timeContainer[i][3] === day) {
                 return " timetb-rg";
             }   
         }
@@ -174,7 +176,7 @@ class Timetable extends React.Component {
 
     timeTableStart() {
         //table is sorted so check for first non-zero value
-        var timetable = this.state.tt_base;
+        var timetable = this.state.timetableBase;
         var padding = 30; //pad half an hour
         for(var x = 0; x < timetable.length; x++) {
             if(timetable[x][0] !== 0)
@@ -185,13 +187,13 @@ class Timetable extends React.Component {
 
     timeTableEnd() {
         //traverse backwards look for largest end
-        var timetable = this.state.tt_base;
+        var timetable = this.state.timetableBase;
         var padding = 30; //pad half an hour
-        var max_end = 0;
+        var maxEnd = 0;
         for(var x = timetable.length - 1; x >= 0; x--) {
-            max_end = Math.max(max_end, timetable[x][1] + padding);
+            maxEnd = Math.max(maxEnd, timetable[x][1] + padding);
         }
-        return max_end;
+        return maxEnd;
     }
 
     drawTable() {
@@ -199,74 +201,75 @@ class Timetable extends React.Component {
         //216 Rows
         // 5AM - 10PM support (based on querying MongoDB for limits)
 
-        var table_data = [];
-        var time_start = this.timeTableStart();
-        var time_end = this.timeTableEnd();
+        var tableData = [];
+        var timeStart = this.timeTableStart();
+        var timeEnd = this.timeTableEnd();
 
-        if(time_start === time_end)
+        if(timeStart === timeEnd)
             return (<Row className ="timetb-msg"><span>
                 Please add courses (non TBA) before trying to build schedules!</span></Row>);
         
         for (var i = 0; i < 216; i++) {
 
-            var r_key = i + "_r";
+            var rowKey = i + "_r";
+            var timeIndicatorKey = i + "_ti";
 
-            var ti_key = i + "_ti";
-
-            var su_key = i + "_su";
-            var mo_key = i + "_mo";
-            var tu_key = i + "_tu";
-            var we_key = i + "_we";
-            var th_key = i + "_th";
-            var fr_key = i + "_fr";
-            var sa_key = i + "_sa";
+            //unique key for column
+            var suKey = i + "_su";
+            var moKey = i + "_mo";
+            var tuKey = i + "_tu";
+            var weKey = i + "_we";
+            var thKey = i + "_th";
+            var frKey = i + "_fr";
+            var saKey = i + "_sa";
 
             //add time to every hour
-            var time_ind = i % 12 === 0 ? String(500 + (i/12)*100) : "";
+            var timeIndicator = i % 12 === 0 ? String(500 + (i/12)*100) : "";
             var time = 500 + (i/12)*100;
 
-            time_ind = this.timeFormat(time_ind);
+            timeIndicator = this.timeFormat(timeIndicator);
 
             //don't build logic if the time is out of the bounds of the start and end
-            if(time < time_start || time > time_end)
+            if(time < timeStart || time > timeEnd)
                 continue;
 
-            var sel_u = this.getFormattingForDay("U", time);
-            var sel_m = this.getFormattingForDay("M", time);
-            var sel_t = this.getFormattingForDay("T", time);
-            var sel_w = this.getFormattingForDay("W", time);
-            var sel_r = this.getFormattingForDay("R", time);
-            var sel_f = this.getFormattingForDay("F", time);
-            var sel_s = this.getFormattingForDay("S", time);
+            //color for timeblock
+            var suColor = this.getFormattingForDay("U", time);
+            var moColor = this.getFormattingForDay("M", time);
+            var tuColor = this.getFormattingForDay("T", time);
+            var weColor = this.getFormattingForDay("W", time);
+            var thColor = this.getFormattingForDay("R", time);
+            var frColor = this.getFormattingForDay("F", time);
+            var saColor = this.getFormattingForDay("S", time);
 
             var b3_key = i + "_b3";
 
-            table_data.push(
-            <Row key = {r_key}>
+            tableData.push(
+            <Row key = {rowKey}>
                 
-            <Col className = "timetb-row timetb-col" key ={ti_key}>
-                <span className = "timetb-time">{time_ind}</span></Col>
-            <Col className = {"timetb-row timetb-col" + sel_u} key ={su_key}><br></br></Col>
-            <Col className = {"timetb-row timetb-col" + sel_m} key ={mo_key}></Col>
-            <Col className = {"timetb-row timetb-col" + sel_t} key ={tu_key}></Col>
-            <Col className = {"timetb-row timetb-col" + sel_w} key ={we_key}></Col>
-            <Col className = {"timetb-row timetb-col" + sel_r} key ={th_key}></Col>
-            <Col className = {"timetb-row timetb-col" + sel_f} key ={fr_key}></Col>
-            <Col className = {"timetb-row timetb-col" + sel_s} key ={sa_key}></Col>
+            <Col className = "timetb-row timetb-col" key ={timeIndicatorKey}>
+                <span className = "timetb-time">{timeIndicator}</span></Col>
+            <Col className = {"timetb-row timetb-col" + suColor} key ={suKey}><br></br></Col>
+            <Col className = {"timetb-row timetb-col" + moColor} key ={moKey}></Col>
+            <Col className = {"timetb-row timetb-col" + tuColor} key ={tuKey}></Col>
+            <Col className = {"timetb-row timetb-col" + weColor} key ={weKey}></Col>
+            <Col className = {"timetb-row timetb-col" + thColor} key ={thKey}></Col>
+            <Col className = {"timetb-row timetb-col" + frColor} key ={frKey}></Col>
+            <Col className = {"timetb-row timetb-col" + saColor} key ={saKey}></Col>
 
             <Col className = "timetb-row" key ={b3_key}></Col>
             </Row>);
 
           };
-          //console.log(table_data);
-        return table_data;
+          //console.log(tableData);
+        return tableData;
     }
 
     drawTableFooter(){
-        var time_start = this.timeTableStart();
-        var time_end = this.timeTableEnd();
+        var timeStart = this.timeTableStart();
+        var timeEnd = this.timeTableEnd();
 
-        if(time_start === time_end)
+        if(timeStart === timeEnd)
             return (<Row></Row>);
 
         return (
