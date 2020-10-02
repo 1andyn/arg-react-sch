@@ -26,53 +26,97 @@ import {
     ListGroupItem
 } from "reactstrap";
 
-import TimeKeeper from 'react-timekeeper';
 import Timetable from "views/App/Timetable.js";
+import Filters from "views/App/Filters.js";
 import Select from 'react-select'
+import moment from 'moment';
 
 //end points
 const end = require('./Endpoints');
 
-function TimePicker(){
-    const [time, setTime] = React.useState('12:00pm')
-    const [showTime, setShowTime] = React.useState(true)
-
-    return (
-        <div>
-            {showTime &&
-                <TimeKeeper
-                    time={time}
-                    onChange={(newTime) => setTime(newTime.formatted12)}
-                    onDoneClick={() => setShowTime(false)}
-                    switchToMinuteOnHourSelect
-                />
-            }
-            <span>Time is {time}</span>
-            {!showTime &&
-                <button onClick={() => setShowTime(true)}>Show</button>
-            }
-        </div>
-    )
-
-}
 class Builder extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             sub: "",
-            vcp_list: new Map(),
-            crs_list: [],
-            clp_list: [],
-            twelve_hr : true,
-            filter: ""
+            vcpList: new Map(),
+            crsList: [],
+            clpList: [],
+            twelveHr : true,
+            filter: "",
+            dayFilterU: false,
+            dayFilterM: false,
+            dayFilterT: false,
+            dayFilterW: false,
+            dayFilterR: false,
+            dayFilterF: false,
+            dayFilterS: false,
+            fullFilter: false,
+            tbaFilter: false,
+            minTimeStart: moment().hour(6).minute(0).second(0),
+            maxTimeEnd: moment().hour(22).minute(0).second(0)
         }
 
+        //filter binds
+        this.toggleFullFilter = this.toggleFullFilter.bind(this);
+        this.toggleTBAFilter = this.toggleTBAFilter.bind(this);
+        this.toggleDayFilter = this.toggleDayFilter.bind(this);
+        this.setStartMinimum = this.setStartMinimum.bind(this);
+        this.setEndMaximum = this.setEndMaximum.bind(this);
+
+        //option bind
         this.toggleTwelveHour = this.toggleTwelveHour.bind(this);
-        this.toggleVirtual = this.toggleVirtual.bind(this);
         this.setFilter = this.setFilter.bind(this);
+        this.toggleVirtual = this.toggleVirtual.bind(this);
+
         this.addSelectedToClipboard = this.addSelectedToClipboard.bind(this);
         this.deleteCrnFromClipboard = this.deleteCrnFromClipboard.bind(this);
+
+    };
+
+    setStartMinimum = (min) => {
+        this.setState ({ minTimeStart : min });
+    };
+
+    setEndMaximum = (max) => {
+        this.setState ({ maxTimeEnd : max });
+    };
+
+    toggleFullFilter = () => {
+        this.setState ({ fullFilter : !this.state.fullFilter });
+    };
+
+    toggleTBAFilter = () => {
+        this.setState ({ tbaFilter : !this.state.tbaFilter });
+    };
+
+    toggleDayFilter = (day) => {
+        switch(day) {
+            case 'u':
+                this.setState({ dayFilterU : !this.state.dayFilterU });
+                break;
+            case 'm':
+                this.setState({ dayFilterM : !this.state.dayFilterM });
+                break;
+            case 't':
+                this.setState({ dayFilterT : !this.state.dayFilterT });
+                break;
+            case 'w':
+                this.setState({ dayFilterW : !this.state.dayFilterW });
+                break;
+            case 'r':
+                this.setState({ dayFilterR : !this.state.dayFilterR });
+                break;
+            case 'f':
+                this.setState({ dayFilterF : !this.state.dayFilterF });
+                break;
+            case 's':
+                this.setState({ dayFilterS : !this.state.dayFilterS });
+                break;
+            default:
+                break; //do nothing
+        }
     };
 
     subject_select(sub_code) {
@@ -83,10 +127,10 @@ class Builder extends React.Component {
         fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => this.setSortedCourseList(data))
-        //clears old vcp_list when changing subjects and set subject code
+        //clears old vcpList when changing subjects and set subject code
         this.setState({
             sub: sub_code.strSubCode,
-            vcp_list: new Map()
+            vcpList: new Map()
         });
 
     };
@@ -95,7 +139,7 @@ class Builder extends React.Component {
         var temp_data = data;
         temp_data.sort((crs_1, crs_2) => parseInt(crs_1.strCRN) - parseInt(crs_2.strCRN));
         this.setState({
-            crs_list: temp_data
+            crsList: temp_data
         });
 
     };
@@ -103,26 +147,26 @@ class Builder extends React.Component {
     toggleVirtual(event) {
         const item = event.target.id;
         const isChecked = event.target.checked;
-        this.setState(prevState => ({ checkedItems: prevState.vcp_list.set(item, isChecked) }));
+        this.setState(prevState => ({ checkedItems: prevState.vcpList.set(item, isChecked) }));
     };
 
     deleteCrnFromClipboard(crn) {
-        var data = this.state.clp_list;
+        var data = this.state.clpList;
         var index = this.binarySearchCRN(crn, data);
 
         data.splice(index,1);
         this.setState({
-            clp_list : data
+            clpList : data
         });
 
     };
 
     helpDisplayCourseList() {
-        return this.state.crs_list.length === 0 ? (<div className = "cl-centered"><h5>Select courses by looking through subjects!</h5></div>) : '' ;
+        return this.state.crsList.length === 0 ? (<div className = "cl-centered"><h5>Select courses by looking through subjects!</h5></div>) : '' ;
     }
 
     helpDisplayClipList() {
-        return this.state.clp_list.length === 0 ? (<div className = "cl-centered"><h6>Add courses from the list to the left!</h6></div>) : '' ;
+        return this.state.clpList.length === 0 ? (<div className = "cl-centered"><h6>Add courses from the list to the left!</h6></div>) : '' ;
     }
 
 
@@ -157,25 +201,25 @@ class Builder extends React.Component {
         //we don't already have the value
         //binary search since clipboard is sorted
 
-        var clip_data = this.state.clp_list;
+        var clip_data = this.state.clpList;
         if (this.binarySearchCRN(crn, clip_data) !== -1 ) {
             //CRN already in clipboard
             return -1;
         };
 
         //not found in clip board, look for course in course list to get data for deep copy
-        var index = this.binarySearchCRN(crn, this.state.crs_list);
-        //create a deep copy since crs_list gets destroyed every subject change
-        var copy_obj = JSON.parse(JSON.stringify(this.state.crs_list[index]));
+        var index = this.binarySearchCRN(crn, this.state.crsList);
+        //create a deep copy since crsList gets destroyed every subject change
+        var copy_obj = JSON.parse(JSON.stringify(this.state.crsList[index]));
         clip_data.push(copy_obj);
         //sort clipboard so we can use binary search in future
         clip_data.sort((crs_1, crs_2) => parseInt(crs_1.strCRN) - parseInt(crs_2.strCRN));
-        this.setState({ clp_list: clip_data });
+        this.setState({ clpList: clip_data });
         //console.log("Added crn to clipboard: " + crn);
     };
 
     addSelectedToClipboard() {
-        for (var [crn, checked] of this.state.vcp_list) {
+        for (var [crn, checked] of this.state.vcpList) {
             if (checked) {
                 this.addCRNtoClipboard(crn);
             }
@@ -201,11 +245,11 @@ class Builder extends React.Component {
             return ("");
 
         //filter only matches on course name, course desc, or CRN
-        var index = this.binarySearchCRN(crn, this.state.crs_list);
+        var index = this.binarySearchCRN(crn, this.state.crsList);
         if(index === -1)
             return("");
 
-        var course = this.state.crs_list[index];
+        var course = this.state.crsList[index];
 
         if((course.strCRN).toString().toLowerCase().indexOf(this.state.filter) !== -1 
             || (course.strTitle).toString().toLowerCase().indexOf(this.state.filter) !== -1 
@@ -217,10 +261,10 @@ class Builder extends React.Component {
     }
 
     toggleTwelveHour() {
-        if(this.state.twelve_hr) {
-            this.setState({twelve_hr : false});
+        if(this.state.twelveHr) {
+            this.setState({twelveHr : false});
         } else {
-            this.setState({twelve_hr : true});
+            this.setState({twelveHr : true});
         }
     }
 
@@ -231,7 +275,7 @@ class Builder extends React.Component {
         if (time === "") return "";
         if (time === "0" || time === "TBA") return "TBA";
 
-        if(this.state.twelve_hr) {
+        if(this.state.twelveHr) {
             if(time.length === 4) {
                 var hr = parseInt(time.substr(0,2));
                 var tag = hr >= 12 ? "PM" : "AM";
@@ -295,8 +339,8 @@ class Builder extends React.Component {
                                                 >
                                                     <div>
                                                         <Timetable 
-                                                            courses = {this.state.clp_list}
-                                                            timeformat = {this.state.twelve_hr}
+                                                            courses = {this.state.clpList}
+                                                            timeformat = {this.state.twelveHr}
                                                         />
                                                     </div>
                                                     <div className="modal-footer mt-3"></div>
@@ -308,7 +352,7 @@ class Builder extends React.Component {
                                                         </ListGroupItem>
                                                             <div>
 
-                                                            {this.state.clp_list.map(clip => (
+                                                            {this.state.clpList.map(clip => (
                                                                 <ListGroupItem key={clip.strCRN + "_clp"} className="timetb-listitem">
                                                                 <Row>
                                                                     <Col s={1} className="timetb-foot-nr">
@@ -388,102 +432,23 @@ class Builder extends React.Component {
                                                         </button>
                                                     </div>
                                                     <div className="modal-body">
-                                                        <Container>
-                                                            <Row>
-                                                            <Col s={3}>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">		
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                            Hide <b>Full</b> Courses (zero seats remaining)
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">	
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Monday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">		
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Tuesday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">	
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Wednesday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">	
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Thursday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">	
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Friday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <div className="mb-3 mr-3">	
-                                                                    <small className="text-uppercase font-weight-bold">	
-                                                                        Hide <b>Saturday</b> Courses
-                                                                    </small>	
-                                                                    </div>
-                                                                    <label className="custom-toggle">	
-                                                                    <input type="checkbox" onChange ="" defaultValue="false"/>	
-                                                                    <span className="custom-toggle-slider rounded-circle" />	
-                                                                    </label>
-                                                                </Row>
-                                                                <Row>
-                                                                    <p>
-                                                                        <b>This functionality is still being developed.</b>
-                                                                    </p>
-                                                                </Row>
-                                                            </Col>
-                                                            <Col s={3}>
-                                                                <Row>
-                                                                    <TimePicker/>
-                                                                </Row>
-                                                                <Row>
-                                                                    <TimePicker/>
-                                                                </Row>
-                                                            </Col>
-                                                            </Row>
-                                                        </Container>
+                                                        <Filters
+                                                            dayFilterU = {this.state.dayFilterU}
+                                                            dayFilterM = {this.state.dayFilterM}
+                                                            dayFilterT = {this.state.dayFilterT}
+                                                            dayFilterW = {this.state.dayFilterW}
+                                                            dayFilterR = {this.state.dayFilterR}
+                                                            dayFilterF = {this.state.dayFilterF}
+                                                            dayFilterS = {this.state.dayFilterS}
+                                                            fullFilter = {this.state.fullFilter}
+                                                            tbaFilter = {this.state.tbaFilter}
+                                                            minTimeStart = {this.state.minTimeStart}
+                                                            maxTimeEnd = {this.state.maxTimeEnd}
+                                                            setStartMinimum = {this.setStartMinimum}
+                                                            setEndMaximum = {this.setEndMaximum}
+                                                            toggleFullFilter = {this.toggleFullFilter}
+                                                            toggleTBAFilter = {this.toggleTBAFilter}
+                                                            toggleDayFilter = {this.toggleDayFilter} />
                                                     </div>
                                             </Modal>
                                             </Col>
@@ -522,7 +487,7 @@ class Builder extends React.Component {
                                                         </small>	
                                                         </div>
                                                         <label className="custom-toggle">	
-                                                        <input type="checkbox" onChange ={this.toggleTwelveHour} defaultValue={this.state.twelve_hr}/>	
+                                                        <input type="checkbox" onChange ={this.toggleTwelveHour} defaultValue={this.state.twelveHr}/>	
                                                         <span className="custom-toggle-slider rounded-circle" />	
                                                         </label>
                                                         <p>
@@ -540,7 +505,7 @@ class Builder extends React.Component {
                                                 <div className="border-right section-scroll">
                                                     <ListGroup>
                                                         {this.helpDisplayCourseList()}
-                                                        {this.state.crs_list.map(crs => (
+                                                        {this.state.crsList.map(crs => (
                                                             <ListGroupItem key={"grp_" + crs.strCRN} className = {this.filterCheck(crs.strCRN)}>
                                                                 <Row>
                                                                     <Col><h6 className="mb-0 heading-title text-primary">{crs.strTitle}</h6></Col>
@@ -599,7 +564,7 @@ class Builder extends React.Component {
                                                 <div className="section-scroll">
                                                     <ListGroup className = "clip-list-col">
                                                         {this.helpDisplayClipList()}
-                                                        {this.state.clp_list.map(clip =>
+                                                        {this.state.clpList.map(clip =>
                                                             <ListGroupItem className="lgi-clp" key={clip.strCRN + "_clp"}>
                                                                 <Row className = "clip-row-title clip-row-width">
                                                                     <Col>
