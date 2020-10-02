@@ -28,6 +28,7 @@ import {
 
 import Timetable from "views/App/Timetable.js";
 import Filters from "views/App/Filters.js";
+import Options from "views/App/Options.js";
 import Select from 'react-select'
 import moment from 'moment';
 
@@ -261,11 +262,7 @@ class Builder extends React.Component {
     }
 
     toggleTwelveHour() {
-        if(this.state.twelveHr) {
-            this.setState({twelveHr : false});
-        } else {
-            this.setState({twelveHr : true});
-        }
+        this.setState({twelveHr : !this.state.twelveHr});
     }
 
     timeFormat(time) {
@@ -481,19 +478,9 @@ class Builder extends React.Component {
                                                         </button>
                                                     </div>
                                                     <div className="modal-body">
-                                                        <div className="mb-3">	
-                                                        <small className="text-uppercase font-weight-bold">	
-                                                            12-hr Mode
-                                                        </small>	
-                                                        </div>
-                                                        <label className="custom-toggle">	
-                                                        <input type="checkbox" onChange ={this.toggleTwelveHour} defaultValue={this.state.twelveHr}/>	
-                                                        <span className="custom-toggle-slider rounded-circle" />	
-                                                        </label>
-                                                        <p>
-                                                            This functionality is still being developed.
-                                                            Hang tight!
-                                                        </p>
+                                                        <Options
+                                                            toggleTwelveHour = {this.toggleTwelveHour}
+                                                            twelveHr = {this.state.twelveHr} />                    
                                                     </div>
                                             </Modal>
                                             </Col>
