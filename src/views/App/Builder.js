@@ -242,8 +242,6 @@ class Builder extends React.Component {
     }
 
     filterCheck(crn) {
-        if(this.state.filter === "") 
-            return ("");
 
         //filter only matches on course name, course desc, or CRN
         var index = this.binarySearchCRN(crn, this.state.crsList);
@@ -252,6 +250,14 @@ class Builder extends React.Component {
 
         var course = this.state.crsList[index];
 
+        //check for filter options
+        let filterOptions = this.checkUserFilters(course);
+        if(filterOptions)
+            return("cl-filtered-item");
+
+        if(this.state.filter === "") 
+            return ("");
+
         if((course.strCRN).toString().toLowerCase().indexOf(this.state.filter) !== -1 
             || (course.strTitle).toString().toLowerCase().indexOf(this.state.filter) !== -1 
             || (course.strCourse).toString().toLowerCase().indexOf(this.state.filter)  !== -1)
@@ -259,6 +265,61 @@ class Builder extends React.Component {
 
         //no match
         return("cl-filtered-item");
+    }
+    
+    checkUserFilters(course) {
+        //full filter
+        if(this.state.fullFilter) {
+            if(course.intSeats === 0)
+                return true;
+        }
+
+        //tba filter
+        if(this.state.tbaFilter) {
+            //if the times arent set or day array is TBA, hide result
+            if(course.intTimeStart === 0 || course.arrDays[0] === "TBA")
+                 return true;
+        }
+
+        //day filter
+        for(let i = 0; i < course.arrDays.length; i++) {
+            if((course.arrDays[i] === 'U' && this.state.dayFilterU) ||
+            (course.arrDays[i] === 'M' && this.state.dayFilterM) ||
+            (course.arrDays[i] === 'T' && this.state.dayFilterT) ||
+            (course.arrDays[i] === 'W' && this.state.dayFilterW) ||
+            (course.arrDays[i] === 'R' && this.state.dayFilterR) ||
+            (course.arrDays[i] === 'F' && this.state.dayFilterF) ||
+            (course.arrDays[i] === 'S' && this.state.dayFilterS))
+                return true;
+        }
+
+        //check second day array
+        for(let i = 0; i < course.arrDays2.length; i++) {
+            if((course.arrDays2[i] === 'U' && this.state.dayFilterU) ||
+            (course.arrDays2[i] === 'M' && this.state.dayFilterM) ||
+            (course.arrDays2[i] === 'T' && this.state.dayFilterT) ||
+            (course.arrDays2[i] === 'W' && this.state.dayFilterW) ||
+            (course.arrDays2[i] === 'R' && this.state.dayFilterR) ||
+            (course.arrDays2[i] === 'F' && this.state.dayFilterF) ||
+            (course.arrDays2[i] === 'S' && this.state.dayFilterS))
+                return true;
+        }
+
+        //check start times, don't compare if its TBA (=== 0)
+        if((parseInt(course.intTimeStart) !== 0 
+            && parseInt(course.intTimeStart) < parseInt(this.state.minTimeStart.format("HHmm"))) ||
+        (parseInt(course.intTimeStart2) !== 0 
+            && parseInt(course.intTimeStart2) < parseInt(this.state.minTimeStart.format("HHmm"))))
+            return true;
+
+        //check end times, don't compare if its TBA (=== 0)
+        if((parseInt(course.intTimeEnd) !== 0 
+            && parseInt(course.intTimeEnd) > parseInt(this.state.maxTimeEnd.format("HHmm"))) ||
+        (parseInt(course.intTimeEnd2) !== 0 
+            && parseInt(course.intTimeEnd2) > parseInt(this.state.maxTimeEnd.format("HHmm"))))
+            return true;
+
+        return false;
     }
 
     toggleTwelveHour() {

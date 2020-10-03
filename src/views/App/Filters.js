@@ -15,7 +15,8 @@ import React from "react";
 import {
     Row,
     Col,
-    Container
+    Container,
+    Badge
 } from "reactstrap";
 
 import 'rc-time-picker/assets/index.css';
@@ -188,7 +189,7 @@ class Filters extends React.Component {
                             </Row>
                             <Row>
                                 <p>
-                                    <b>This functionality is still being developed.</b>
+                                <Badge className="text-uppercase" color="primary" pill>More filters to be added in the future</Badge>
                                 </p>
                             </Row>
                         </Col>

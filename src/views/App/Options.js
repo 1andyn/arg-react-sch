@@ -15,7 +15,8 @@ import React from "react";
 import {
     Row,
     Col,
-    Container
+    Container,
+    Badge
 } from "reactstrap";
 
 class Options extends React.Component {   
@@ -47,7 +48,7 @@ class Options extends React.Component {
                             </Row>
                             <Row>
                                 <p>
-                                    <b>This functionality is still being developed.</b>
+                                    <Badge className="text-uppercase" color="primary" pill>This functionality is still being developed</Badge>
                                 </p>
                             </Row>
                         </Col>
